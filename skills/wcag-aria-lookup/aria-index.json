@@ -1,0 +1,514 @@
+{
+  "version": "1.2",
+  "roles": {
+    "alert": {
+      "type": "live-region",
+      "summary": "Important message that should be announced immediately to assistive technology.",
+      "keywords": ["alert", "error", "warning", "notification", "アラート", "エラー", "警告"],
+      "implicitAriaLive": "assertive",
+      "requiredAttributes": [],
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#alert",
+      "apg": "https://www.w3.org/WAI/ARIA/apg/patterns/alert/"
+    },
+    "alertdialog": {
+      "type": "window",
+      "summary": "Alert dialog that interrupts user's workflow and requires a response.",
+      "keywords": ["alertdialog", "confirm", "confirmation", "確認ダイアログ"],
+      "requiredAttributes": ["aria-label or aria-labelledby"],
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#alertdialog",
+      "apg": "https://www.w3.org/WAI/ARIA/apg/patterns/alertdialog/"
+    },
+    "button": {
+      "type": "widget",
+      "summary": "Clickable element that triggers an action.",
+      "keywords": ["button", "click", "action", "ボタン"],
+      "requiredAttributes": [],
+      "supportedAttributes": ["aria-pressed", "aria-expanded", "aria-haspopup"],
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#button",
+      "apg": "https://www.w3.org/WAI/ARIA/apg/patterns/button/"
+    },
+    "checkbox": {
+      "type": "widget",
+      "summary": "Checkable input with three possible states: true, false, or mixed.",
+      "keywords": ["checkbox", "check", "toggle", "チェックボックス"],
+      "requiredAttributes": ["aria-checked"],
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#checkbox",
+      "apg": "https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/"
+    },
+    "combobox": {
+      "type": "widget",
+      "summary": "Input with associated popup providing options, like autocomplete.",
+      "keywords": ["combobox", "autocomplete", "select", "dropdown", "typeahead", "コンボボックス", "オートコンプリート"],
+      "requiredAttributes": ["aria-expanded", "aria-controls"],
+      "supportedAttributes": ["aria-autocomplete", "aria-activedescendant"],
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#combobox",
+      "apg": "https://www.w3.org/WAI/ARIA/apg/patterns/combobox/"
+    },
+    "dialog": {
+      "type": "window",
+      "summary": "Application window designed to interrupt current processing.",
+      "keywords": ["dialog", "modal", "popup", "overlay", "ダイアログ", "モーダル"],
+      "requiredAttributes": ["aria-label or aria-labelledby"],
+      "supportedAttributes": ["aria-modal", "aria-describedby"],
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#dialog",
+      "apg": "https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/"
+    },
+    "grid": {
+      "type": "widget",
+      "summary": "Interactive tabular data structure with rows and cells.",
+      "keywords": ["grid", "table", "spreadsheet", "グリッド", "テーブル"],
+      "requiredAttributes": [],
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#grid",
+      "apg": "https://www.w3.org/WAI/ARIA/apg/patterns/grid/"
+    },
+    "listbox": {
+      "type": "widget",
+      "summary": "List from which user can select one or more items.",
+      "keywords": ["listbox", "list", "select", "options", "リストボックス"],
+      "requiredAttributes": [],
+      "supportedAttributes": ["aria-multiselectable", "aria-activedescendant"],
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#listbox",
+      "apg": "https://www.w3.org/WAI/ARIA/apg/patterns/listbox/"
+    },
+    "menu": {
+      "type": "widget",
+      "summary": "List of choices or actions, like application menu.",
+      "keywords": ["menu", "menubar", "dropdown menu", "actions", "メニュー", "ドロップダウン"],
+      "requiredAttributes": [],
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#menu",
+      "apg": "https://www.w3.org/WAI/ARIA/apg/patterns/menu/"
+    },
+    "menuitem": {
+      "type": "widget",
+      "summary": "Option in a set of choices contained by a menu or menubar.",
+      "keywords": ["menuitem", "menu option", "メニューアイテム"],
+      "requiredAttributes": [],
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#menuitem"
+    },
+    "option": {
+      "type": "widget",
+      "summary": "Selectable item in a listbox.",
+      "keywords": ["option", "list item", "オプション"],
+      "requiredAttributes": [],
+      "supportedAttributes": ["aria-selected"],
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#option"
+    },
+    "progressbar": {
+      "type": "widget",
+      "summary": "Element showing progress of a task.",
+      "keywords": ["progressbar", "progress", "loading", "プログレスバー", "進捗"],
+      "requiredAttributes": [],
+      "supportedAttributes": ["aria-valuenow", "aria-valuemin", "aria-valuemax", "aria-valuetext"],
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#progressbar"
+    },
+    "radio": {
+      "type": "widget",
+      "summary": "Checkable input in a group where only one can be checked.",
+      "keywords": ["radio", "radio button", "choice", "ラジオボタン"],
+      "requiredAttributes": ["aria-checked"],
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#radio",
+      "apg": "https://www.w3.org/WAI/ARIA/apg/patterns/radio/"
+    },
+    "radiogroup": {
+      "type": "widget",
+      "summary": "Group of radio buttons.",
+      "keywords": ["radiogroup", "radio group", "ラジオグループ"],
+      "requiredAttributes": [],
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#radiogroup",
+      "apg": "https://www.w3.org/WAI/ARIA/apg/patterns/radio/"
+    },
+    "slider": {
+      "type": "widget",
+      "summary": "Input where user selects a value from within a range.",
+      "keywords": ["slider", "range", "スライダー", "レンジ"],
+      "requiredAttributes": ["aria-valuenow", "aria-valuemin", "aria-valuemax"],
+      "supportedAttributes": ["aria-valuetext", "aria-orientation"],
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#slider",
+      "apg": "https://www.w3.org/WAI/ARIA/apg/patterns/slider/"
+    },
+    "spinbutton": {
+      "type": "widget",
+      "summary": "Input for selecting from discrete values, typically numbers.",
+      "keywords": ["spinbutton", "number input", "スピンボタン"],
+      "requiredAttributes": ["aria-valuenow", "aria-valuemin", "aria-valuemax"],
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#spinbutton",
+      "apg": "https://www.w3.org/WAI/ARIA/apg/patterns/spinbutton/"
+    },
+    "status": {
+      "type": "live-region",
+      "summary": "Container for advisory information that is not important enough to be an alert.",
+      "keywords": ["status", "info", "message", "toast", "ステータス", "トースト"],
+      "implicitAriaLive": "polite",
+      "requiredAttributes": [],
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#status"
+    },
+    "switch": {
+      "type": "widget",
+      "summary": "Checkbox that represents on/off values instead of checked/unchecked.",
+      "keywords": ["switch", "toggle", "on off", "スイッチ", "トグル"],
+      "requiredAttributes": ["aria-checked"],
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#switch",
+      "apg": "https://www.w3.org/WAI/ARIA/apg/patterns/switch/"
+    },
+    "tab": {
+      "type": "widget",
+      "summary": "Tab in a tablist, controls visibility of associated tabpanel.",
+      "keywords": ["tab", "tabs", "タブ"],
+      "requiredAttributes": [],
+      "supportedAttributes": ["aria-selected", "aria-controls"],
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#tab",
+      "apg": "https://www.w3.org/WAI/ARIA/apg/patterns/tabs/"
+    },
+    "tablist": {
+      "type": "widget",
+      "summary": "Container for a set of tabs.",
+      "keywords": ["tablist", "tabs container", "タブリスト"],
+      "requiredAttributes": [],
+      "supportedAttributes": ["aria-orientation"],
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#tablist",
+      "apg": "https://www.w3.org/WAI/ARIA/apg/patterns/tabs/"
+    },
+    "tabpanel": {
+      "type": "widget",
+      "summary": "Container for content associated with a tab.",
+      "keywords": ["tabpanel", "tab content", "タブパネル"],
+      "requiredAttributes": [],
+      "supportedAttributes": ["aria-labelledby"],
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#tabpanel",
+      "apg": "https://www.w3.org/WAI/ARIA/apg/patterns/tabs/"
+    },
+    "tooltip": {
+      "type": "widget",
+      "summary": "Contextual popup that displays description for an element.",
+      "keywords": ["tooltip", "hint", "description popup", "ツールチップ", "ヒント"],
+      "requiredAttributes": [],
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#tooltip",
+      "apg": "https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/"
+    },
+    "tree": {
+      "type": "widget",
+      "summary": "Hierarchical list with expandable/collapsible items.",
+      "keywords": ["tree", "treeview", "hierarchy", "ツリー", "階層"],
+      "requiredAttributes": [],
+      "supportedAttributes": ["aria-multiselectable"],
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#tree",
+      "apg": "https://www.w3.org/WAI/ARIA/apg/patterns/treeview/"
+    },
+    "treeitem": {
+      "type": "widget",
+      "summary": "Item in a tree structure.",
+      "keywords": ["treeitem", "tree node", "ツリーアイテム"],
+      "requiredAttributes": [],
+      "supportedAttributes": ["aria-expanded", "aria-selected"],
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#treeitem"
+    }
+  },
+  "attributes": {
+    "aria-activedescendant": {
+      "type": "relationship",
+      "summary": "Identifies currently active element when focus is on composite widget.",
+      "keywords": ["activedescendant", "active", "current", "アクティブ"],
+      "values": "ID reference",
+      "usedWith": ["combobox", "grid", "listbox", "menu", "radiogroup", "tree", "tablist"],
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#aria-activedescendant"
+    },
+    "aria-atomic": {
+      "type": "live-region",
+      "summary": "Indicates whether assistive technologies present all or only changed content.",
+      "keywords": ["atomic", "live region", "アトミック"],
+      "values": "true | false",
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#aria-atomic"
+    },
+    "aria-autocomplete": {
+      "type": "widget",
+      "summary": "Indicates whether inputting text triggers display of predictions.",
+      "keywords": ["autocomplete", "suggestions", "オートコンプリート"],
+      "values": "none | inline | list | both",
+      "usedWith": ["combobox", "textbox"],
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#aria-autocomplete"
+    },
+    "aria-busy": {
+      "type": "live-region",
+      "summary": "Indicates element is being modified and assistive technologies should wait.",
+      "keywords": ["busy", "loading", "updating", "ビジー", "読み込み中"],
+      "values": "true | false",
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#aria-busy"
+    },
+    "aria-checked": {
+      "type": "widget",
+      "summary": "Indicates current checked state of checkboxes, radio buttons, and switches.",
+      "keywords": ["checked", "selected", "toggle", "チェック", "選択"],
+      "values": "true | false | mixed",
+      "usedWith": ["checkbox", "radio", "switch", "menuitemcheckbox", "menuitemradio"],
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#aria-checked"
+    },
+    "aria-controls": {
+      "type": "relationship",
+      "summary": "Identifies element(s) whose contents are controlled by current element.",
+      "keywords": ["controls", "target", "コントロール"],
+      "values": "ID reference list",
+      "usedWith": ["button", "tab", "combobox"],
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#aria-controls"
+    },
+    "aria-current": {
+      "type": "widget",
+      "summary": "Indicates element representing current item within container or set.",
+      "keywords": ["current", "active", "selected page", "カレント", "現在のページ"],
+      "values": "page | step | location | date | time | true | false",
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#aria-current"
+    },
+    "aria-describedby": {
+      "type": "relationship",
+      "summary": "Identifies element(s) that describe the object.",
+      "keywords": ["describedby", "description", "help text", "説明"],
+      "values": "ID reference list",
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#aria-describedby"
+    },
+    "aria-disabled": {
+      "type": "widget",
+      "summary": "Indicates element is perceivable but disabled.",
+      "keywords": ["disabled", "inactive", "無効", "非活性"],
+      "values": "true | false",
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#aria-disabled"
+    },
+    "aria-expanded": {
+      "type": "widget",
+      "summary": "Indicates whether element or controlled element is expanded or collapsed.",
+      "keywords": ["expanded", "collapsed", "open", "close", "展開", "折りたたみ"],
+      "values": "true | false",
+      "usedWith": ["button", "combobox", "treeitem", "accordion"],
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#aria-expanded"
+    },
+    "aria-haspopup": {
+      "type": "widget",
+      "summary": "Indicates availability and type of popup that can be triggered.",
+      "keywords": ["haspopup", "popup", "dropdown", "ポップアップ"],
+      "values": "false | true | menu | listbox | tree | grid | dialog",
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#aria-haspopup"
+    },
+    "aria-hidden": {
+      "type": "widget",
+      "summary": "Indicates element is not exposed to accessibility API.",
+      "keywords": ["hidden", "invisible", "decorative", "非表示", "装飾"],
+      "values": "true | false",
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#aria-hidden"
+    },
+    "aria-invalid": {
+      "type": "widget",
+      "summary": "Indicates entered value does not conform to expected format.",
+      "keywords": ["invalid", "error", "validation", "無効", "エラー", "バリデーション"],
+      "values": "true | false | grammar | spelling",
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#aria-invalid"
+    },
+    "aria-label": {
+      "type": "naming",
+      "summary": "Defines string value that labels current element.",
+      "keywords": ["label", "name", "accessible name", "ラベル", "アクセシブルネーム"],
+      "values": "string",
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#aria-label"
+    },
+    "aria-labelledby": {
+      "type": "naming",
+      "summary": "Identifies element(s) that label current element.",
+      "keywords": ["labelledby", "label", "title", "ラベル参照"],
+      "values": "ID reference list",
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#aria-labelledby"
+    },
+    "aria-live": {
+      "type": "live-region",
+      "summary": "Indicates element will be updated and describes update type.",
+      "keywords": ["live", "dynamic", "announcement", "ライブ", "動的更新"],
+      "values": "off | polite | assertive",
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#aria-live"
+    },
+    "aria-modal": {
+      "type": "widget",
+      "summary": "Indicates whether element is modal when displayed.",
+      "keywords": ["modal", "dialog", "focus trap", "モーダル"],
+      "values": "true | false",
+      "usedWith": ["dialog", "alertdialog"],
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#aria-modal"
+    },
+    "aria-orientation": {
+      "type": "widget",
+      "summary": "Indicates whether element's orientation is horizontal or vertical.",
+      "keywords": ["orientation", "horizontal", "vertical", "向き"],
+      "values": "horizontal | vertical",
+      "usedWith": ["scrollbar", "slider", "tablist", "toolbar", "menu"],
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#aria-orientation"
+    },
+    "aria-owns": {
+      "type": "relationship",
+      "summary": "Identifies element(s) that are children but not in DOM hierarchy.",
+      "keywords": ["owns", "parent", "child", "所有"],
+      "values": "ID reference list",
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#aria-owns"
+    },
+    "aria-pressed": {
+      "type": "widget",
+      "summary": "Indicates current pressed state of toggle button.",
+      "keywords": ["pressed", "toggle", "active", "押下"],
+      "values": "true | false | mixed",
+      "usedWith": ["button"],
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#aria-pressed"
+    },
+    "aria-readonly": {
+      "type": "widget",
+      "summary": "Indicates element is not editable but is operable.",
+      "keywords": ["readonly", "read only", "読み取り専用"],
+      "values": "true | false",
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#aria-readonly"
+    },
+    "aria-relevant": {
+      "type": "live-region",
+      "summary": "Indicates what notifications user should be made aware of in live region.",
+      "keywords": ["relevant", "changes", "additions", "関連"],
+      "values": "additions | removals | text | all | additions text",
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#aria-relevant"
+    },
+    "aria-required": {
+      "type": "widget",
+      "summary": "Indicates user input is required before form submission.",
+      "keywords": ["required", "mandatory", "必須"],
+      "values": "true | false",
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#aria-required"
+    },
+    "aria-selected": {
+      "type": "widget",
+      "summary": "Indicates current selected state of element.",
+      "keywords": ["selected", "active", "選択"],
+      "values": "true | false",
+      "usedWith": ["option", "tab", "treeitem", "gridcell", "row"],
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#aria-selected"
+    },
+    "aria-valuemax": {
+      "type": "widget",
+      "summary": "Defines maximum allowed value for range widget.",
+      "keywords": ["valuemax", "maximum", "max", "最大値"],
+      "values": "number",
+      "usedWith": ["progressbar", "slider", "spinbutton"],
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#aria-valuemax"
+    },
+    "aria-valuemin": {
+      "type": "widget",
+      "summary": "Defines minimum allowed value for range widget.",
+      "keywords": ["valuemin", "minimum", "min", "最小値"],
+      "values": "number",
+      "usedWith": ["progressbar", "slider", "spinbutton"],
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#aria-valuemin"
+    },
+    "aria-valuenow": {
+      "type": "widget",
+      "summary": "Defines current value for range widget.",
+      "keywords": ["valuenow", "current value", "現在値"],
+      "values": "number",
+      "usedWith": ["progressbar", "slider", "spinbutton"],
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#aria-valuenow"
+    },
+    "aria-valuetext": {
+      "type": "widget",
+      "summary": "Human-readable text alternative for aria-valuenow.",
+      "keywords": ["valuetext", "value text", "値テキスト"],
+      "values": "string",
+      "usedWith": ["progressbar", "slider", "spinbutton"],
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#aria-valuetext"
+    }
+  },
+  "patterns": {
+    "accordion": {
+      "summary": "Vertically stacked set of interactive headings that each reveal a section of content.",
+      "keywords": ["accordion", "expandable", "collapsible", "アコーディオン", "折りたたみ"],
+      "keyRoles": [],
+      "keyAttributes": ["aria-expanded", "aria-controls"],
+      "keyboard": ["Enter/Space: Toggle section", "Tab: Navigate between headers"],
+      "apg": "https://www.w3.org/WAI/ARIA/apg/patterns/accordion/"
+    },
+    "breadcrumb": {
+      "summary": "Navigation showing current location within hierarchical structure.",
+      "keywords": ["breadcrumb", "navigation", "path", "パンくず", "ナビゲーション"],
+      "keyRoles": ["navigation"],
+      "keyAttributes": ["aria-label", "aria-current"],
+      "apg": "https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/"
+    },
+    "carousel": {
+      "summary": "Section that rotates through a set of content items.",
+      "keywords": ["carousel", "slider", "slideshow", "カルーセル", "スライダー"],
+      "keyRoles": ["group", "region"],
+      "keyAttributes": ["aria-label", "aria-live", "aria-roledescription"],
+      "keyboard": ["Left/Right arrows: Navigate slides", "Tab: Navigate controls"],
+      "apg": "https://www.w3.org/WAI/ARIA/apg/patterns/carousel/"
+    },
+    "disclosure": {
+      "summary": "Button that controls visibility of a section of content.",
+      "keywords": ["disclosure", "show hide", "toggle content", "開示"],
+      "keyRoles": ["button"],
+      "keyAttributes": ["aria-expanded", "aria-controls"],
+      "keyboard": ["Enter/Space: Toggle visibility"],
+      "apg": "https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/"
+    },
+    "dialog-modal": {
+      "summary": "Window overlaid on primary window, requiring user interaction.",
+      "keywords": ["dialog", "modal", "popup", "overlay", "ダイアログ", "モーダル"],
+      "keyRoles": ["dialog"],
+      "keyAttributes": ["aria-modal", "aria-labelledby", "aria-describedby"],
+      "keyboard": ["Tab: Cycle focus within dialog", "Escape: Close dialog"],
+      "focusManagement": ["Focus first focusable on open", "Trap focus inside", "Return focus on close"],
+      "apg": "https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/"
+    },
+    "feed": {
+      "summary": "Scrollable list of articles with keyboard navigation.",
+      "keywords": ["feed", "articles", "infinite scroll", "フィード"],
+      "keyRoles": ["feed", "article"],
+      "keyAttributes": ["aria-busy", "aria-setsize", "aria-posinset"],
+      "apg": "https://www.w3.org/WAI/ARIA/apg/patterns/feed/"
+    },
+    "menu": {
+      "summary": "Widget offering list of actions/functions.",
+      "keywords": ["menu", "dropdown", "context menu", "actions", "メニュー", "ドロップダウン"],
+      "keyRoles": ["menu", "menuitem", "menuitemcheckbox", "menuitemradio"],
+      "keyAttributes": ["aria-haspopup", "aria-expanded"],
+      "keyboard": ["Arrow keys: Navigate items", "Enter: Activate item", "Escape: Close menu"],
+      "apg": "https://www.w3.org/WAI/ARIA/apg/patterns/menu/"
+    },
+    "menubar": {
+      "summary": "Horizontal menu bar typically found at top of application.",
+      "keywords": ["menubar", "application menu", "top menu", "メニューバー"],
+      "keyRoles": ["menubar", "menu", "menuitem"],
+      "keyAttributes": ["aria-haspopup", "aria-expanded"],
+      "keyboard": ["Left/Right: Navigate menubar", "Down: Open submenu", "Escape: Close"],
+      "apg": "https://www.w3.org/WAI/ARIA/apg/patterns/menubar/"
+    },
+    "tabs": {
+      "summary": "Set of tab elements and their associated tab panels.",
+      "keywords": ["tabs", "tabbed interface", "tablist", "タブ", "タブインターフェース"],
+      "keyRoles": ["tablist", "tab", "tabpanel"],
+      "keyAttributes": ["aria-selected", "aria-controls", "aria-labelledby"],
+      "keyboard": ["Arrow keys: Navigate tabs", "Tab: Enter/exit tablist", "Home/End: First/last tab"],
+      "focusManagement": ["Only selected tab in tab sequence", "Arrow keys move selection"],
+      "apg": "https://www.w3.org/WAI/ARIA/apg/patterns/tabs/"
+    },
+    "toolbar": {
+      "summary": "Container for grouping set of controls.",
+      "keywords": ["toolbar", "tools", "actions", "ツールバー"],
+      "keyRoles": ["toolbar"],
+      "keyAttributes": ["aria-label", "aria-controls"],
+      "keyboard": ["Arrow keys: Navigate within toolbar", "Tab: Enter/exit toolbar"],
+      "apg": "https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/"
+    },
+    "treegrid": {
+      "summary": "Grid with hierarchical structure allowing rows to expand/collapse.",
+      "keywords": ["treegrid", "hierarchical grid", "expandable table", "ツリーグリッド"],
+      "keyRoles": ["treegrid", "row", "gridcell"],
+      "keyAttributes": ["aria-expanded", "aria-level", "aria-setsize", "aria-posinset"],
+      "apg": "https://www.w3.org/WAI/ARIA/apg/patterns/treegrid/"
+    },
+    "treeview": {
+      "summary": "Widget presenting hierarchical list with expandable/collapsible items.",
+      "keywords": ["treeview", "tree", "hierarchy", "ツリービュー", "階層"],
+      "keyRoles": ["tree", "treeitem", "group"],
+      "keyAttributes": ["aria-expanded", "aria-selected", "aria-level"],
+      "keyboard": ["Arrow keys: Navigate tree", "Enter: Activate item", "Left/Right: Collapse/expand"],
+      "apg": "https://www.w3.org/WAI/ARIA/apg/patterns/treeview/"
+    }
+  }
+}

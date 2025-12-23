@@ -1,0 +1,631 @@
+{
+  "version": "2.1",
+  "level": "AA",
+  "criteria": {
+    "1.1.1": {
+      "name": "Non-text Content",
+      "level": "A",
+      "summary": "All non-text content (images, icons, charts) must have text alternatives that serve the equivalent purpose.",
+      "keywords": ["alt", "alt text", "image", "icon", "chart", "non-text", "alternative text", "画像", "代替テキスト"],
+      "requirements": [
+        "Images need descriptive alt text",
+        "Decorative images use alt=\"\"",
+        "Icon buttons need aria-label"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/non-text-content",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#non-text-content"
+    },
+    "1.2.1": {
+      "name": "Audio-only and Video-only (Prerecorded)",
+      "level": "A",
+      "summary": "Provide alternatives for prerecorded audio-only and video-only content.",
+      "keywords": ["audio", "video", "transcript", "音声", "動画", "文字起こし"],
+      "requirements": [
+        "Audio-only: provide transcript",
+        "Video-only: provide audio description or transcript"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/audio-only-and-video-only-prerecorded",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#audio-only-and-video-only-prerecorded"
+    },
+    "1.2.2": {
+      "name": "Captions (Prerecorded)",
+      "level": "A",
+      "summary": "Captions are provided for all prerecorded audio content in synchronized media.",
+      "keywords": ["captions", "subtitles", "video", "字幕", "キャプション"],
+      "requirements": [
+        "All spoken content captioned",
+        "Speaker identification when unclear",
+        "Sound effects described"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/captions-prerecorded",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#captions-prerecorded"
+    },
+    "1.2.3": {
+      "name": "Audio Description or Media Alternative (Prerecorded)",
+      "level": "A",
+      "summary": "Provide audio description or full text alternative for prerecorded video.",
+      "keywords": ["audio description", "video", "media alternative", "音声解説"],
+      "requirements": [
+        "Describe important visual content",
+        "Or provide full text alternative"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/audio-description-or-media-alternative-prerecorded",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#audio-description-or-media-alternative-prerecorded"
+    },
+    "1.2.4": {
+      "name": "Captions (Live)",
+      "level": "AA",
+      "summary": "Captions are provided for all live audio content in synchronized media.",
+      "keywords": ["live captions", "live stream", "real-time", "ライブ字幕", "リアルタイム"],
+      "requirements": [
+        "Real-time captioning for live events",
+        "CART or automated speech recognition"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/captions-live",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#captions-live"
+    },
+    "1.2.5": {
+      "name": "Audio Description (Prerecorded)",
+      "level": "AA",
+      "summary": "Audio description is provided for all prerecorded video content.",
+      "keywords": ["audio description", "video", "blind", "音声解説", "視覚障害"],
+      "requirements": [
+        "Describe visual actions and scenes",
+        "Insert during natural pauses"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/audio-description-prerecorded",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#audio-description-prerecorded"
+    },
+    "1.3.1": {
+      "name": "Info and Relationships",
+      "level": "A",
+      "summary": "Information, structure, and relationships conveyed visually are available programmatically.",
+      "keywords": ["semantic", "structure", "heading", "table", "form", "label", "セマンティック", "構造", "見出し"],
+      "requirements": [
+        "Use semantic HTML (nav, main, article)",
+        "Proper heading hierarchy (h1-h6)",
+        "Table headers with scope",
+        "Form labels associated with inputs"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#info-and-relationships"
+    },
+    "1.3.2": {
+      "name": "Meaningful Sequence",
+      "level": "A",
+      "summary": "Reading and navigation order is logical and intuitive.",
+      "keywords": ["order", "sequence", "reading order", "DOM order", "順序", "読み順"],
+      "requirements": [
+        "DOM order matches visual order",
+        "CSS doesn't break reading sequence"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/meaningful-sequence",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#meaningful-sequence"
+    },
+    "1.3.3": {
+      "name": "Sensory Characteristics",
+      "level": "A",
+      "summary": "Instructions don't rely solely on sensory characteristics (shape, color, size, location, sound).",
+      "keywords": ["sensory", "shape", "color", "location", "形", "色", "位置"],
+      "requirements": [
+        "Don't say 'click the red button'",
+        "Provide text labels with visual cues"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/sensory-characteristics",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#sensory-characteristics"
+    },
+    "1.3.4": {
+      "name": "Orientation",
+      "level": "AA",
+      "summary": "Content doesn't restrict view to a single orientation (portrait/landscape) unless essential.",
+      "keywords": ["orientation", "portrait", "landscape", "rotation", "向き", "回転"],
+      "requirements": [
+        "Support both portrait and landscape",
+        "Don't lock orientation via CSS/JS"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/orientation",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#orientation"
+    },
+    "1.3.5": {
+      "name": "Identify Input Purpose",
+      "level": "AA",
+      "summary": "Input fields that collect user information have programmatically determined purpose via autocomplete.",
+      "keywords": ["autocomplete", "input purpose", "form", "オートコンプリート", "入力目的"],
+      "requirements": [
+        "Use autocomplete attribute on form fields",
+        "e.g., autocomplete=\"email\", autocomplete=\"name\""
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/identify-input-purpose",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#identify-input-purpose"
+    },
+    "1.4.1": {
+      "name": "Use of Color",
+      "level": "A",
+      "summary": "Color is not the only visual means of conveying information.",
+      "keywords": ["color", "color alone", "colorblind", "色", "色覚"],
+      "requirements": [
+        "Don't use color alone to indicate errors",
+        "Add icons, text, or patterns with color"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/use-of-color",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#use-of-color"
+    },
+    "1.4.2": {
+      "name": "Audio Control",
+      "level": "A",
+      "summary": "Audio playing automatically for more than 3 seconds can be paused, stopped, or volume controlled.",
+      "keywords": ["audio", "autoplay", "sound", "volume", "音声", "自動再生"],
+      "requirements": [
+        "Provide pause/stop/mute controls",
+        "Or audio stops within 3 seconds"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/audio-control",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#audio-control"
+    },
+    "1.4.3": {
+      "name": "Contrast (Minimum)",
+      "level": "AA",
+      "summary": "Text has contrast ratio of at least 4.5:1 (normal) or 3:1 (large text) against background.",
+      "keywords": ["contrast", "color contrast", "4.5:1", "3:1", "コントラスト", "色比"],
+      "requirements": [
+        "Normal text: 4.5:1 minimum",
+        "Large text (18pt/14pt bold): 3:1 minimum",
+        "UI components: 3:1 minimum"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#contrast-minimum"
+    },
+    "1.4.4": {
+      "name": "Resize Text",
+      "level": "AA",
+      "summary": "Text can be resized up to 200% without loss of content or functionality.",
+      "keywords": ["resize", "zoom", "text size", "200%", "拡大", "ズーム", "テキストサイズ"],
+      "requirements": [
+        "Use relative units (rem, em)",
+        "No horizontal scrolling at 200% zoom",
+        "Content not clipped or overlapping"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/resize-text",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#resize-text"
+    },
+    "1.4.5": {
+      "name": "Images of Text",
+      "level": "AA",
+      "summary": "Use actual text instead of images of text, except for logos or when essential.",
+      "keywords": ["images of text", "text as image", "logo", "テキスト画像"],
+      "requirements": [
+        "Use CSS for styling text",
+        "Logos exempt from this requirement"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/images-of-text",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#images-of-text"
+    },
+    "1.4.10": {
+      "name": "Reflow",
+      "level": "AA",
+      "summary": "Content reflows without horizontal scrolling at 400% zoom (320px equivalent).",
+      "keywords": ["reflow", "responsive", "400%", "320px", "horizontal scroll", "リフロー", "レスポンシブ"],
+      "requirements": [
+        "No horizontal scrolling at 320px width",
+        "Use responsive design techniques"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/reflow",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#reflow"
+    },
+    "1.4.11": {
+      "name": "Non-text Contrast",
+      "level": "AA",
+      "summary": "UI components and graphical objects have at least 3:1 contrast ratio.",
+      "keywords": ["ui contrast", "button contrast", "icon contrast", "3:1", "UIコントラスト", "ボタン"],
+      "requirements": [
+        "Form input borders: 3:1",
+        "Button borders: 3:1",
+        "Icons and graphics: 3:1"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/non-text-contrast",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#non-text-contrast"
+    },
+    "1.4.12": {
+      "name": "Text Spacing",
+      "level": "AA",
+      "summary": "No loss of content when user adjusts text spacing (line height, letter/word spacing, paragraph spacing).",
+      "keywords": ["text spacing", "line height", "letter spacing", "行間", "文字間隔"],
+      "requirements": [
+        "Support line-height 1.5x font size",
+        "Support letter-spacing 0.12x font size",
+        "Support word-spacing 0.16x font size"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/text-spacing",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#text-spacing"
+    },
+    "1.4.13": {
+      "name": "Content on Hover or Focus",
+      "level": "AA",
+      "summary": "Content appearing on hover/focus is dismissable, hoverable, and persistent.",
+      "keywords": ["hover", "focus", "tooltip", "popup", "ホバー", "ツールチップ"],
+      "requirements": [
+        "Dismissable: Escape key closes",
+        "Hoverable: Can move pointer to content",
+        "Persistent: Stays until dismissed"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/content-on-hover-or-focus",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#content-on-hover-or-focus"
+    },
+    "2.1.1": {
+      "name": "Keyboard",
+      "level": "A",
+      "summary": "All functionality is operable through a keyboard interface.",
+      "keywords": ["keyboard", "tab", "enter", "focus", "キーボード", "タブ", "フォーカス"],
+      "requirements": [
+        "All interactive elements focusable",
+        "Custom widgets have key handlers",
+        "No keyboard traps"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/keyboard",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#keyboard"
+    },
+    "2.1.2": {
+      "name": "No Keyboard Trap",
+      "level": "A",
+      "summary": "Keyboard focus can be moved away from any component using only the keyboard.",
+      "keywords": ["keyboard trap", "focus trap", "modal", "キーボードトラップ"],
+      "requirements": [
+        "User can always Tab out of components",
+        "Modal dialogs: Escape to close"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/no-keyboard-trap",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#no-keyboard-trap"
+    },
+    "2.1.4": {
+      "name": "Character Key Shortcuts",
+      "level": "A",
+      "summary": "Single character key shortcuts can be turned off, remapped, or are only active on focus.",
+      "keywords": ["shortcut", "hotkey", "character key", "ショートカット", "ホットキー"],
+      "requirements": [
+        "Provide way to turn off shortcuts",
+        "Or remap to modifier+key",
+        "Or only active when component focused"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/character-key-shortcuts",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#character-key-shortcuts"
+    },
+    "2.2.1": {
+      "name": "Timing Adjustable",
+      "level": "A",
+      "summary": "Time limits can be turned off, adjusted, or extended.",
+      "keywords": ["timeout", "session", "time limit", "タイムアウト", "時間制限"],
+      "requirements": [
+        "Warn before timeout",
+        "Allow 10x extension",
+        "Or provide option to disable"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/timing-adjustable",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#timing-adjustable"
+    },
+    "2.2.2": {
+      "name": "Pause, Stop, Hide",
+      "level": "A",
+      "summary": "Moving, blinking, scrolling, or auto-updating content can be paused, stopped, or hidden.",
+      "keywords": ["animation", "autoplay", "carousel", "アニメーション", "カルーセル", "自動更新"],
+      "requirements": [
+        "Provide pause/stop controls",
+        "Or auto-update stops within 5 seconds"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/pause-stop-hide",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#pause-stop-hide"
+    },
+    "2.3.1": {
+      "name": "Three Flashes or Below Threshold",
+      "level": "A",
+      "summary": "Content doesn't flash more than three times per second.",
+      "keywords": ["flash", "flicker", "seizure", "epilepsy", "点滅", "てんかん"],
+      "requirements": [
+        "No content flashes more than 3x/second",
+        "Or flash area is small enough"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/three-flashes-or-below-threshold",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#three-flashes-or-below-threshold"
+    },
+    "2.4.1": {
+      "name": "Bypass Blocks",
+      "level": "A",
+      "summary": "Mechanism to bypass repeated content blocks (e.g., skip links).",
+      "keywords": ["skip link", "bypass", "skip navigation", "スキップリンク", "ナビゲーションスキップ"],
+      "requirements": [
+        "Skip to main content link",
+        "Landmark regions (main, nav)",
+        "Proper heading structure"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/bypass-blocks",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#bypass-blocks"
+    },
+    "2.4.2": {
+      "name": "Page Titled",
+      "level": "A",
+      "summary": "Web pages have titles that describe topic or purpose.",
+      "keywords": ["title", "page title", "タイトル", "ページタイトル"],
+      "requirements": [
+        "Unique, descriptive <title>",
+        "Include site name and page name"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/page-titled",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#page-titled"
+    },
+    "2.4.3": {
+      "name": "Focus Order",
+      "level": "A",
+      "summary": "Focus order preserves meaning and operability.",
+      "keywords": ["focus order", "tab order", "tabindex", "フォーカス順序", "タブ順序"],
+      "requirements": [
+        "Logical tab order (top-to-bottom, left-to-right)",
+        "Avoid tabindex > 0",
+        "Modal focus management"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/focus-order",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#focus-order"
+    },
+    "2.4.4": {
+      "name": "Link Purpose (In Context)",
+      "level": "A",
+      "summary": "Link purpose can be determined from link text alone or together with context.",
+      "keywords": ["link", "link text", "click here", "read more", "リンク", "リンクテキスト"],
+      "requirements": [
+        "Descriptive link text",
+        "Avoid 'click here', 'read more'",
+        "Include file type and size if applicable"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/link-purpose-in-context",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#link-purpose-in-context"
+    },
+    "2.4.5": {
+      "name": "Multiple Ways",
+      "level": "AA",
+      "summary": "More than one way to locate a page within a set of pages.",
+      "keywords": ["navigation", "sitemap", "search", "ナビゲーション", "サイトマップ", "検索"],
+      "requirements": [
+        "Main navigation",
+        "Site search",
+        "Sitemap",
+        "Breadcrumbs"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/multiple-ways",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#multiple-ways"
+    },
+    "2.4.6": {
+      "name": "Headings and Labels",
+      "level": "AA",
+      "summary": "Headings and labels describe topic or purpose.",
+      "keywords": ["heading", "label", "descriptive", "見出し", "ラベル"],
+      "requirements": [
+        "Headings clearly describe sections",
+        "Form labels describe input purpose"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/headings-and-labels",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#headings-and-labels"
+    },
+    "2.4.7": {
+      "name": "Focus Visible",
+      "level": "AA",
+      "summary": "Keyboard focus indicator is visible.",
+      "keywords": ["focus", "focus visible", "outline", "フォーカス", "フォーカスインジケーター", "アウトライン"],
+      "requirements": [
+        "Never remove outline without replacement",
+        "High contrast focus indicator",
+        "2px minimum outline width"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/focus-visible",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#focus-visible"
+    },
+    "2.5.1": {
+      "name": "Pointer Gestures",
+      "level": "A",
+      "summary": "Multi-point or path-based gestures have single-pointer alternatives.",
+      "keywords": ["gesture", "swipe", "pinch", "touch", "ジェスチャー", "スワイプ", "タッチ"],
+      "requirements": [
+        "Provide button alternatives for gestures",
+        "Pinch zoom: provide zoom buttons"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/pointer-gestures",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#pointer-gestures"
+    },
+    "2.5.2": {
+      "name": "Pointer Cancellation",
+      "level": "A",
+      "summary": "Single-pointer actions can be cancelled or undone.",
+      "keywords": ["pointer", "click", "touch", "cancel", "ポインター", "キャンセル"],
+      "requirements": [
+        "Act on up-event, not down-event",
+        "Or provide undo mechanism",
+        "Allow drag away to cancel"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/pointer-cancellation",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#pointer-cancellation"
+    },
+    "2.5.3": {
+      "name": "Label in Name",
+      "level": "A",
+      "summary": "Visible label is included in the accessible name.",
+      "keywords": ["label", "accessible name", "aria-label", "ラベル", "アクセシブルネーム"],
+      "requirements": [
+        "Visible text should match aria-label",
+        "aria-label should start with visible text"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/label-in-name",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#label-in-name"
+    },
+    "2.5.4": {
+      "name": "Motion Actuation",
+      "level": "A",
+      "summary": "Functions triggered by device motion have UI alternatives and can be disabled.",
+      "keywords": ["motion", "shake", "tilt", "accelerometer", "モーション", "傾き"],
+      "requirements": [
+        "Provide UI button alternatives",
+        "Allow disabling motion response"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/motion-actuation",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#motion-actuation"
+    },
+    "3.1.1": {
+      "name": "Language of Page",
+      "level": "A",
+      "summary": "Default human language of page can be programmatically determined.",
+      "keywords": ["lang", "language", "html lang", "言語", "lang属性"],
+      "requirements": [
+        "<html lang=\"en\">",
+        "Use valid language codes"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/language-of-page",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#language-of-page"
+    },
+    "3.1.2": {
+      "name": "Language of Parts",
+      "level": "AA",
+      "summary": "Language of passages or phrases can be programmatically determined.",
+      "keywords": ["lang", "language", "multilingual", "言語", "多言語"],
+      "requirements": [
+        "Use lang attribute on foreign text",
+        "<span lang=\"ja\">日本語</span>"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/language-of-parts",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#language-of-parts"
+    },
+    "3.2.1": {
+      "name": "On Focus",
+      "level": "A",
+      "summary": "Receiving focus doesn't cause unexpected context change.",
+      "keywords": ["focus", "context change", "redirect", "フォーカス", "コンテキスト変更"],
+      "requirements": [
+        "No automatic form submission on focus",
+        "No automatic navigation on focus"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/on-focus",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#on-focus"
+    },
+    "3.2.2": {
+      "name": "On Input",
+      "level": "A",
+      "summary": "Changing input value doesn't cause unexpected context change unless user is advised.",
+      "keywords": ["input", "change", "context change", "入力", "変更"],
+      "requirements": [
+        "No auto-submit without warning",
+        "Provide submit button"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/on-input",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#on-input"
+    },
+    "3.2.3": {
+      "name": "Consistent Navigation",
+      "level": "AA",
+      "summary": "Navigation mechanisms repeated across pages are consistent.",
+      "keywords": ["navigation", "consistent", "menu", "ナビゲーション", "一貫性"],
+      "requirements": [
+        "Same navigation order across pages",
+        "Same link labels across pages"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/consistent-navigation",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#consistent-navigation"
+    },
+    "3.2.4": {
+      "name": "Consistent Identification",
+      "level": "AA",
+      "summary": "Components with same functionality are identified consistently.",
+      "keywords": ["consistent", "identification", "icon", "一貫性", "識別"],
+      "requirements": [
+        "Same icons for same functions",
+        "Same labels for same actions"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/consistent-identification",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#consistent-identification"
+    },
+    "3.3.1": {
+      "name": "Error Identification",
+      "level": "A",
+      "summary": "Input errors are automatically detected and described to user in text.",
+      "keywords": ["error", "validation", "form error", "エラー", "バリデーション"],
+      "requirements": [
+        "Describe error in text",
+        "Associate error with input",
+        "Don't use color alone"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/error-identification",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#error-identification"
+    },
+    "3.3.2": {
+      "name": "Labels or Instructions",
+      "level": "A",
+      "summary": "Labels or instructions are provided for user input.",
+      "keywords": ["label", "instructions", "form", "placeholder", "ラベル", "説明"],
+      "requirements": [
+        "Visible labels for all inputs",
+        "Placeholder is not a label replacement",
+        "Provide format hints"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/labels-or-instructions",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#labels-or-instructions"
+    },
+    "3.3.3": {
+      "name": "Error Suggestion",
+      "level": "AA",
+      "summary": "If input error is detected and suggestions are known, provide them.",
+      "keywords": ["error suggestion", "correction", "hint", "エラー提案", "修正"],
+      "requirements": [
+        "Suggest correct format",
+        "Provide example values"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/error-suggestion",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#error-suggestion"
+    },
+    "3.3.4": {
+      "name": "Error Prevention (Legal, Financial, Data)",
+      "level": "AA",
+      "summary": "For legal/financial submissions: reversible, checked, or confirmable.",
+      "keywords": ["error prevention", "confirmation", "review", "エラー防止", "確認"],
+      "requirements": [
+        "Review before submission",
+        "Confirmation step",
+        "Reversible actions"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/error-prevention-legal-financial-data",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#error-prevention-legal-financial-data"
+    },
+    "4.1.1": {
+      "name": "Parsing",
+      "level": "A",
+      "summary": "No duplicate IDs, proper element nesting, complete start/end tags.",
+      "keywords": ["parsing", "html validation", "duplicate id", "パース", "HTML検証", "重複ID"],
+      "requirements": [
+        "Unique IDs on page",
+        "Valid HTML nesting",
+        "Complete opening/closing tags"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/parsing",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#parsing"
+    },
+    "4.1.2": {
+      "name": "Name, Role, Value",
+      "level": "A",
+      "summary": "All UI components have accessible name, role, and state that can be programmatically determined.",
+      "keywords": ["aria", "name role value", "accessible name", "ARIA", "アクセシブルネーム", "ロール"],
+      "requirements": [
+        "Use native HTML when possible",
+        "Custom widgets need ARIA roles/states",
+        "Update aria-* states dynamically"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/name-role-value",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#name-role-value"
+    },
+    "4.1.3": {
+      "name": "Status Messages",
+      "level": "AA",
+      "summary": "Status messages can be programmatically determined through role or properties without receiving focus.",
+      "keywords": ["status", "alert", "live region", "aria-live", "ステータス", "ライブリージョン"],
+      "requirements": [
+        "Use role=\"status\" for polite updates",
+        "Use role=\"alert\" for important messages",
+        "aria-live for dynamic content"
+      ],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/status-messages",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#status-messages"
+    }
+  }
+}

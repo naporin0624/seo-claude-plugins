@@ -1,10 +1,9 @@
 {
   "name": "seo-a11y-tools",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "SEO and WCAG 2.1 AA accessibility analysis tools for HTML/JSX/TSX files",
   "skills": [
     "skills/seo-a11y-analyzer",
-    "skills/wcag-21-aa-reference",
-    "skills/wai-aria-patterns"
+    "skills/wcag-aria-lookup"
   ]
 }
