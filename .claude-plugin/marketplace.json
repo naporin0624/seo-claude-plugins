@@ -1,0 +1,24 @@
+{
+  "name": "seo-a11y-marketplace",
+  "owner": {
+    "name": "naporin0624"
+  },
+  "metadata": {
+    "description": "SEO and WCAG 2.1 AA accessibility analysis tools for Claude Code",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "seo-a11y-tools",
+      "source": "./",
+      "description": "SEO and WCAG 2.1 AA accessibility analysis tools for HTML/JSX/TSX files. Includes automated linting with axe-core + markuplint, WCAG/ARIA reference lookup, and command-driven audit workflow.",
+      "version": "2.3.0",
+      "author": {
+        "name": "naporin0624"
+      },
+      "license": "MIT",
+      "keywords": ["seo", "accessibility", "wcag", "aria", "a11y", "axe-core"],
+      "category": "accessibility"
+    }
+  ]
+}

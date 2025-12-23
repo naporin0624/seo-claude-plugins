@@ -4,13 +4,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a **Claude Code plugin** that provides SEO and WCAG 2.1 AA accessibility analysis tools for HTML/JSX/TSX files. The plugin includes automated linting, WCAG/ARIA reference lookup, and a command-driven audit workflow with subagent support.
+This is a **Claude Code plugin marketplace** that provides SEO and WCAG 2.1 AA accessibility analysis tools for HTML/JSX/TSX files. The plugin includes automated linting, WCAG/ARIA reference lookup, and a command-driven audit workflow with subagent support.
 
 ## Architecture
 
 ```
 seo-claude-plugins/
-├── plugin.json                    # Plugin manifest (v2.3.0)
+├── .claude-plugin/                # Marketplace and plugin configuration
+│   ├── marketplace.json           # Marketplace manifest
+│   └── plugin.json                # Plugin manifest (v2.3.0)
 ├── skills/
 │   ├── seo-a11y-analyzer/        # Core analysis skill (5-step workflow)
 │   ├── wcag-aria-lookup/         # Lookup-based WCAG/ARIA reference
@@ -97,6 +99,30 @@ Read-only subagent that:
 - ✅ Analyzes results
 - ✅ Suggests fixes with code examples
 - ❌ Does NOT modify files
+
+## Installation
+
+### Add Marketplace and Install Plugin
+
+```bash
+# Add the marketplace (from GitHub)
+/plugin marketplace add naporin0624/seo-claude-plugins
+
+# Install the plugin
+/plugin install seo-a11y-tools@seo-a11y-marketplace
+
+# Or add from local path (for development)
+/plugin marketplace add ./path/to/seo-claude-plugins
+```
+
+### Validate Marketplace Structure
+
+```bash
+# Validate the plugin structure
+claude plugin validate .
+# Or from within Claude Code
+/plugin validate .
+```
 
 ## Development Commands
 

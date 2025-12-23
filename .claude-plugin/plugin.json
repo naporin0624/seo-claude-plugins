@@ -2,6 +2,12 @@
   "name": "seo-a11y-tools",
   "version": "2.3.0",
   "description": "SEO and WCAG 2.1 AA accessibility analysis tools for HTML/JSX/TSX files",
+  "author": {
+    "name": "naporin0624"
+  },
+  "repository": "https://github.com/naporin0624/seo-claude-plugins",
+  "license": "MIT",
+  "keywords": ["seo", "accessibility", "wcag", "aria", "a11y", "axe-core"],
   "skills": [
     "skills/seo-a11y-analyzer",
     "skills/wcag-aria-lookup",
