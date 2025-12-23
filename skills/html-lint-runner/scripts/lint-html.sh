@@ -4,6 +4,15 @@
 
 set -e
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SKILL_DIR="$(dirname "$SCRIPT_DIR")"
+
+# Install dependencies if needed
+if [ ! -d "$SKILL_DIR/node_modules" ]; then
+    echo "Installing dependencies..." >&2
+    (cd "$SKILL_DIR" && npm install --silent)
+fi
+
 if [ -z "$1" ]; then
   echo "Usage: $0 <file>" >&2
   exit 1

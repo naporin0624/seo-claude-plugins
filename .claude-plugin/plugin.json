@@ -1,13 +1,13 @@
 {
   "name": "seo-a11y-tools",
-  "version": "3.0.0",
-  "description": "Comprehensive SEO and WCAG 2.1 AA accessibility analysis tools with Lighthouse integration",
+  "version": "3.1.0",
+  "description": "Comprehensive SEO, WCAG 2.1 AA accessibility, and web resource analysis tools with Lighthouse integration",
   "author": {
     "name": "naporin0624"
   },
   "repository": "https://github.com/naporin0624/seo-claude-plugins",
   "license": "MIT",
-  "keywords": ["seo", "accessibility", "wcag", "aria", "a11y", "axe-core", "lighthouse", "core-web-vitals", "open-graph", "structured-data"],
+  "keywords": ["seo", "accessibility", "wcag", "aria", "a11y", "axe-core", "lighthouse", "core-web-vitals", "open-graph", "structured-data", "sitemap", "robots", "llms-txt", "security-txt"],
   "skills": [
     "./skills/seo-a11y-analyzer",
     "./skills/wcag-aria-lookup",
@@ -15,11 +15,13 @@
     "./skills/a11y-self-check",
     "./skills/seo-lookup",
     "./skills/seo-analyzer",
-    "./skills/lighthouse-runner"
+    "./skills/lighthouse-runner",
+    "./skills/web-resource-checker"
   ],
   "commands": [
     "./commands/a11y-audit.md",
-    "./commands/seo-audit.md"
+    "./commands/seo-audit.md",
+    "./commands/web-audit.md"
   ],
   "agents": [
     "./agents/a11y-fixer.md"

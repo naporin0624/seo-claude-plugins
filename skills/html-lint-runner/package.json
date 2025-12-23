@@ -1,0 +1,15 @@
+{
+  "name": "html-lint-runner",
+  "version": "1.0.0",
+  "description": "Automated HTML/JSX/TSX linting with axe-core and markuplint",
+  "private": true,
+  "dependencies": {
+    "@axe-core/cli": "^4.10.0",
+    "markuplint": "^4.0.0",
+    "@markuplint/jsx-parser": "^4.0.0",
+    "@markuplint/react-spec": "^4.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

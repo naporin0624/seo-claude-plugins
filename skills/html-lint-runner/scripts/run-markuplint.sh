@@ -4,29 +4,26 @@
 
 set -e
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SKILL_DIR="$(dirname "$SCRIPT_DIR")"
+CONFIG_DIR="$SKILL_DIR/configs"
+
+# Install dependencies if needed
+if [ ! -d "$SKILL_DIR/node_modules" ]; then
+    echo "Installing dependencies..." >&2
+    (cd "$SKILL_DIR" && npm install --silent)
+fi
+
 if [ -z "$1" ]; then
   echo "Usage: $0 <file>" >&2
   exit 1
 fi
 
 FILE="$1"
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-CONFIG_DIR="$SCRIPT_DIR/../configs"
 
 if [ ! -f "$FILE" ]; then
   echo "Error: File not found: $FILE" >&2
   exit 1
-fi
-
-# Get file extension
-EXT="${FILE##*.}"
-
-# Check if JSX/TSX and suggest installing parser
-if [ "$EXT" = "jsx" ] || [ "$EXT" = "tsx" ]; then
-  # Check if parser is available
-  if ! npm list @markuplint/jsx-parser >/dev/null 2>&1; then
-    echo "Note: For JSX/TSX support, install: npm install -D @markuplint/jsx-parser @markuplint/react-spec" >&2
-  fi
 fi
 
 # Use project config if exists, otherwise use bundled config

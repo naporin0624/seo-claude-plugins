@@ -1,0 +1,15 @@
+{
+  "name": "web-resource-checker",
+  "version": "1.0.0",
+  "description": "Validates essential web resource files (sitemap.xml, robots.txt, llms.txt, security.txt)",
+  "type": "module",
+  "scripts": {
+    "check": "node scripts/analyze-web-resources.js"
+  },
+  "dependencies": {
+    "xml2js": "^0.6.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

@@ -1,0 +1,294 @@
+{
+  "version": "1.0",
+  "files": {
+    "sitemap.xml": {
+      "path": "/sitemap.xml",
+      "alternativePaths": ["/sitemap_index.xml", "/sitemaps/sitemap.xml"],
+      "summary": "XML file listing all URLs for search engine crawling. Critical for SEO discoverability.",
+      "summaryJa": "検索エンジンのクローリング用にすべてのURLを一覧化するXMLファイル。SEOの発見性に重要。",
+      "keywords": ["sitemap", "xml", "seo", "crawl", "index", "url", "サイトマップ", "クロール"],
+      "specification": "https://www.sitemaps.org/protocol.html",
+      "googleDocs": "https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap",
+      "format": "xml",
+      "requiredElements": ["urlset", "url", "loc"],
+      "recommendedElements": ["lastmod", "changefreq", "priority"],
+      "validation": {
+        "maxUrls": 50000,
+        "maxSizeBytes": 52428800,
+        "maxSizeHuman": "50MB",
+        "encoding": "UTF-8",
+        "urlFormat": "absolute"
+      },
+      "commonIssues": [
+        {
+          "id": "missing-lastmod",
+          "severity": "recommended",
+          "message": "Missing lastmod element reduces crawl efficiency",
+          "messageJa": "lastmod要素がないとクロール効率が低下します",
+          "fix": "Add <lastmod>YYYY-MM-DD</lastmod> to each URL entry"
+        },
+        {
+          "id": "relative-url",
+          "severity": "critical",
+          "message": "URLs must be absolute, not relative",
+          "messageJa": "URLは相対パスではなく絶対パスである必要があります",
+          "fix": "Use absolute URLs starting with https://"
+        },
+        {
+          "id": "exceeds-limit",
+          "severity": "critical",
+          "message": "Sitemap exceeds 50,000 URL limit",
+          "messageJa": "サイトマップが50,000 URL制限を超えています",
+          "fix": "Split into multiple sitemaps and use sitemap index"
+        },
+        {
+          "id": "invalid-xml",
+          "severity": "critical",
+          "message": "Invalid XML structure",
+          "messageJa": "XML構造が無効です",
+          "fix": "Validate XML syntax and fix parsing errors"
+        }
+      ],
+      "example": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n  <url>\n    <loc>https://example.com/page</loc>\n    <lastmod>2024-01-15</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.8</priority>\n  </url>\n</urlset>"
+    },
+    "robots.txt": {
+      "path": "/robots.txt",
+      "summary": "Text file controlling search engine crawler access. Must be at site root.",
+      "summaryJa": "検索エンジンクローラーのアクセスを制御するテキストファイル。サイトルートに配置必須。",
+      "keywords": ["robots", "crawler", "bot", "disallow", "allow", "user-agent", "クローラー", "ロボット"],
+      "specification": "https://www.robotstxt.org/",
+      "rfc": "RFC 9309",
+      "rfcUrl": "https://www.rfc-editor.org/rfc/rfc9309.html",
+      "googleDocs": "https://developers.google.com/search/docs/crawling-indexing/robots/intro",
+      "format": "text",
+      "requiredDirectives": [],
+      "commonDirectives": ["User-agent", "Disallow", "Allow", "Sitemap", "Crawl-delay"],
+      "validation": {
+        "maxSizeBytes": 512000,
+        "maxSizeHuman": "500KB",
+        "encoding": "UTF-8",
+        "caseSensitive": false
+      },
+      "commonIssues": [
+        {
+          "id": "missing-sitemap",
+          "severity": "recommended",
+          "message": "No Sitemap directive found",
+          "messageJa": "Sitemapディレクティブがありません",
+          "fix": "Add Sitemap: https://example.com/sitemap.xml"
+        },
+        {
+          "id": "blocking-all",
+          "severity": "critical",
+          "message": "Disallow: / blocks all crawlers from entire site",
+          "messageJa": "Disallow: / はサイト全体へのクローラーアクセスをブロックします",
+          "fix": "Remove or modify Disallow: / if unintended"
+        },
+        {
+          "id": "no-user-agent",
+          "severity": "important",
+          "message": "Missing User-agent directive",
+          "messageJa": "User-agentディレクティブがありません",
+          "fix": "Add User-agent: * or specific bot names"
+        },
+        {
+          "id": "syntax-error",
+          "severity": "critical",
+          "message": "Invalid robots.txt syntax",
+          "messageJa": "robots.txtの構文が無効です",
+          "fix": "Check directive format: Directive: value"
+        }
+      ],
+      "example": "User-agent: *\nAllow: /\nDisallow: /admin/\nDisallow: /private/\n\nSitemap: https://example.com/sitemap.xml"
+    },
+    "llms.txt": {
+      "path": "/llms.txt",
+      "summary": "Markdown file providing LLM-friendly site overview per llmstxt.org specification.",
+      "summaryJa": "llmstxt.org仕様に基づくLLMフレンドリーなサイト概要を提供するMarkdownファイル。",
+      "keywords": ["llms", "llm", "ai", "markdown", "machine-learning", "context", "LLM", "AI"],
+      "specification": "https://llmstxt.org/",
+      "github": "https://github.com/AnswerDotAI/llms-txt",
+      "format": "markdown",
+      "requiredSections": [
+        {
+          "name": "title",
+          "description": "H1 heading with project/site name",
+          "descriptionJa": "プロジェクト/サイト名のH1見出し"
+        }
+      ],
+      "recommendedSections": [
+        {
+          "name": "summary",
+          "description": "Blockquote with brief project description",
+          "descriptionJa": "プロジェクトの簡単な説明を含むブロッククオート"
+        },
+        {
+          "name": "details",
+          "description": "Additional context in markdown sections",
+          "descriptionJa": "Markdownセクションでの追加コンテキスト"
+        },
+        {
+          "name": "optional",
+          "description": "H2 'Optional' section for less critical resources",
+          "descriptionJa": "重要度の低いリソース用のH2 'Optional'セクション"
+        }
+      ],
+      "validation": {
+        "encoding": "UTF-8",
+        "hasH1Title": true,
+        "hasSummary": true
+      },
+      "commonIssues": [
+        {
+          "id": "missing-title",
+          "severity": "critical",
+          "message": "Missing H1 title at start of file",
+          "messageJa": "ファイル先頭にH1タイトルがありません",
+          "fix": "Start file with # Your Site Name"
+        },
+        {
+          "id": "missing-summary",
+          "severity": "important",
+          "message": "Missing summary blockquote after title",
+          "messageJa": "タイトル後のサマリーブロッククオートがありません",
+          "fix": "Add > Brief description of your site after the H1"
+        },
+        {
+          "id": "invalid-markdown",
+          "severity": "important",
+          "message": "Invalid markdown structure",
+          "messageJa": "Markdown構造が無効です",
+          "fix": "Validate markdown syntax"
+        }
+      ],
+      "example": "# Example Site\n\n> A comprehensive platform for developers to learn and build.\n\n## Documentation\n\n- [Getting Started](https://example.com/docs/start): Quick start guide\n- [API Reference](https://example.com/docs/api): Full API documentation\n\n## Optional\n\n- [Blog](https://example.com/blog): Latest updates and tutorials"
+    },
+    "llms-full.txt": {
+      "path": "/llms-full.txt",
+      "summary": "Complete documentation for LLMs - extended version of llms.txt with full content.",
+      "summaryJa": "LLM向けの完全なドキュメント - llms.txtの拡張版で完全なコンテンツを含む。",
+      "keywords": ["llms", "documentation", "complete", "full", "LLM", "ドキュメント"],
+      "specification": "https://llmstxt.org/",
+      "relatedTo": "llms.txt",
+      "format": "markdown",
+      "validation": {
+        "encoding": "UTF-8",
+        "maxTokensRecommended": 100000
+      },
+      "commonIssues": [
+        {
+          "id": "too-large",
+          "severity": "recommended",
+          "message": "File may exceed typical LLM context windows (~100k tokens)",
+          "messageJa": "ファイルが一般的なLLMコンテキストウィンドウ（約10万トークン）を超える可能性があります",
+          "fix": "Consider splitting into sections or prioritizing content"
+        }
+      ],
+      "example": "# Example Site - Full Documentation\n\n> Complete reference for Example Site.\n\n[Full content of all documentation pages...]"
+    },
+    "security.txt": {
+      "path": "/.well-known/security.txt",
+      "alternativePaths": ["/security.txt"],
+      "summary": "Security vulnerability disclosure policy per RFC 9116. Required fields: Contact, Expires.",
+      "summaryJa": "RFC 9116に基づくセキュリティ脆弱性開示ポリシー。必須フィールド: Contact, Expires。",
+      "keywords": ["security", "vulnerability", "disclosure", "contact", "rfc9116", "セキュリティ", "脆弱性"],
+      "specification": "https://securitytxt.org/",
+      "rfc": "RFC 9116",
+      "rfcUrl": "https://www.rfc-editor.org/rfc/rfc9116.html",
+      "cisaRecommendation": "https://www.cisa.gov/news-events/news/securitytxt-simple-file-big-value",
+      "format": "text",
+      "requiredFields": ["Contact", "Expires"],
+      "recommendedFields": ["Encryption", "Acknowledgments", "Preferred-Languages", "Canonical", "Policy", "Hiring"],
+      "validation": {
+        "encoding": "UTF-8",
+        "expiresFormat": "ISO 8601",
+        "requiresHttps": true,
+        "maxExpiryYears": 1
+      },
+      "commonIssues": [
+        {
+          "id": "missing-contact",
+          "severity": "critical",
+          "message": "Missing required Contact field",
+          "messageJa": "必須のContactフィールドがありません",
+          "fix": "Add Contact: mailto:security@example.com or Contact: https://example.com/security"
+        },
+        {
+          "id": "missing-expires",
+          "severity": "critical",
+          "message": "Missing required Expires field",
+          "messageJa": "必須のExpiresフィールドがありません",
+          "fix": "Add Expires: 2025-12-31T23:59:59.000Z"
+        },
+        {
+          "id": "expired",
+          "severity": "critical",
+          "message": "Expires date is in the past",
+          "messageJa": "Expires日付が過去です",
+          "fix": "Update Expires to a future date (max 1 year recommended)"
+        },
+        {
+          "id": "invalid-expires-format",
+          "severity": "important",
+          "message": "Expires field is not in ISO 8601 format",
+          "messageJa": "ExpiresフィールドがISO 8601形式ではありません",
+          "fix": "Use format: YYYY-MM-DDTHH:MM:SS.sssZ"
+        },
+        {
+          "id": "not-https",
+          "severity": "important",
+          "message": "security.txt should be served over HTTPS",
+          "messageJa": "security.txtはHTTPS経由で配信する必要があります",
+          "fix": "Ensure file is accessible via HTTPS"
+        }
+      ],
+      "example": "Contact: mailto:security@example.com\nContact: https://example.com/security\nExpires: 2025-12-31T23:59:59.000Z\nEncryption: https://example.com/.well-known/pgp-key.txt\nPreferred-Languages: en, ja\nCanonical: https://example.com/.well-known/security.txt\nPolicy: https://example.com/security-policy"
+    },
+    "humans.txt": {
+      "path": "/humans.txt",
+      "summary": "Optional file crediting the team behind the website.",
+      "summaryJa": "ウェブサイトを制作したチームのクレジットを記載するオプションファイル。",
+      "keywords": ["humans", "credits", "team", "about", "クレジット", "チーム"],
+      "specification": "https://humanstxt.org/",
+      "format": "text",
+      "optional": true,
+      "requiredFields": [],
+      "recommendedSections": ["TEAM", "THANKS", "SITE"],
+      "commonIssues": [],
+      "example": "/* TEAM */\nDeveloper: John Doe\nSite: https://johndoe.com\nTwitter: @johndoe\nLocation: Tokyo, Japan\n\n/* THANKS */\nName: Open Source Contributors\n\n/* SITE */\nLast update: 2024/01/15\nLanguage: English, Japanese\nDoctype: HTML5\nComponents: React, Node.js"
+    },
+    "ads.txt": {
+      "path": "/ads.txt",
+      "summary": "Authorized Digital Sellers file for advertising transparency (IAB Tech Lab).",
+      "summaryJa": "広告の透明性のための認定デジタル販売者ファイル（IAB Tech Lab）。",
+      "keywords": ["ads", "advertising", "publishers", "iab", "広告", "パブリッシャー"],
+      "specification": "https://iabtechlab.com/ads-txt/",
+      "format": "text",
+      "optional": true,
+      "validation": {
+        "lineFormat": "<domain>, <publisher-id>, <relationship>, [<certification-authority-id>]"
+      },
+      "commonIssues": [
+        {
+          "id": "invalid-format",
+          "severity": "important",
+          "message": "Line does not match ads.txt format",
+          "messageJa": "行がads.txt形式に一致しません",
+          "fix": "Use format: domain.com, pub-id, DIRECT or RESELLER, cert-id"
+        }
+      ],
+      "example": "google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0\nexample-ad-network.com, 12345, RESELLER"
+    },
+    "app-ads.txt": {
+      "path": "/app-ads.txt",
+      "summary": "Authorized Digital Sellers file for mobile app advertising.",
+      "summaryJa": "モバイルアプリ広告向けの認定デジタル販売者ファイル。",
+      "keywords": ["app-ads", "mobile", "advertising", "app", "モバイル", "アプリ"],
+      "specification": "https://iabtechlab.com/app-ads-txt/",
+      "relatedTo": "ads.txt",
+      "format": "text",
+      "optional": true,
+      "commonIssues": []
+    }
+  }
+}
