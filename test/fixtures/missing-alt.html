@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Missing Alt Text Example</title>
+  <meta name="description" content="This page demonstrates missing alt text issues">
+</head>
+<body>
+  <h1>Image Accessibility Test Page</h1>
+
+  <!-- Missing alt attribute entirely -->
+  <img src="hero-image.jpg">
+
+  <!-- Empty alt (valid for decorative images, but this is informative) -->
+  <img src="product-photo.jpg" alt="">
+
+  <!-- Missing alt with complex filename -->
+  <img src="img_20231201_company_logo_final_v2.png">
+
+  <!-- Good: Proper alt text -->
+  <img src="team-photo.jpg" alt="Our development team at the annual company retreat">
+
+  <!-- Missing alt in figure -->
+  <figure>
+    <img src="chart-sales-2023.png">
+    <figcaption>Sales data for 2023</figcaption>
+  </figure>
+
+  <!-- Link with image missing alt -->
+  <a href="/products">
+    <img src="products-banner.jpg">
+  </a>
+
+  <!-- SVG without accessible name -->
+  <svg width="100" height="100">
+    <circle cx="50" cy="50" r="40" fill="blue"/>
+  </svg>
+
+  <!-- Icon button without accessible label -->
+  <button>
+    <img src="search-icon.svg">
+  </button>
+
+  <!-- Background image conveying information (CSS issue, harder to detect) -->
+  <div style="background-image: url('important-infographic.png'); width: 300px; height: 200px;">
+  </div>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ARIA Errors Example</title>
+  <meta name="description" content="This page demonstrates common ARIA implementation errors">
+</head>
+<body>
+  <h1>ARIA Implementation Test Page</h1>
+
+  <!-- Invalid ARIA role -->
+  <div role="hamburger">Menu</div>
+
+  <!-- Missing required ARIA attributes -->
+  <div role="slider">
+    <!-- Missing aria-valuenow, aria-valuemin, aria-valuemax -->
+    Volume
+  </div>
+
+  <!-- aria-hidden on focusable element -->
+  <button aria-hidden="true">Hidden but focusable</button>
+
+  <!-- Redundant role on native element -->
+  <button role="button">Redundant Role Button</button>
+  <a href="#" role="link">Redundant Link</a>
+
+  <!-- Empty aria-label -->
+  <button aria-label="">Empty Label Button</button>
+
+  <!-- aria-labelledby pointing to non-existent ID -->
+  <div aria-labelledby="non-existent-id">
+    Content with broken label reference
+  </div>
+
+  <!-- Invalid aria-* attribute -->
+  <div aria-invalid-attribute="true">Invalid attribute</div>
+
+  <!-- Conflicting ARIA attributes -->
+  <div role="button" aria-disabled="true" aria-pressed="true" tabindex="-1">
+    Conflicting states
+  </div>
+
+  <!-- Tab panel without proper association -->
+  <div role="tablist">
+    <button role="tab">Tab 1</button>
+    <button role="tab" aria-selected="true">Tab 2</button>
+  </div>
+  <div role="tabpanel">Content 1</div>
+  <div role="tabpanel">Content 2</div>
+
+  <!-- Dialog without proper focus management hints -->
+  <div role="dialog">
+    <h2>Dialog Title</h2>
+    <p>Dialog content without aria-labelledby or aria-label</p>
+    <button>Close</button>
+  </div>
+
+  <!-- Live region with incorrect attributes -->
+  <div aria-live="aggressive">
+    <!-- Should be "assertive" not "aggressive" -->
+    Status updates
+  </div>
+
+  <!-- Menu without proper structure -->
+  <ul role="menu">
+    <li>Item 1</li> <!-- Missing role="menuitem" -->
+    <li role="menuitem">Item 2</li>
+    <div role="menuitem">Item 3</div> <!-- Wrong parent element -->
+  </ul>
+
+  <!-- Form input without accessible name -->
+  <input type="text" placeholder="Enter name">
+
+  <!-- Custom checkbox without proper ARIA -->
+  <div onclick="toggle()" style="cursor: pointer;">
+    [ ] Custom checkbox without ARIA
+  </div>
+</body>
+</html>

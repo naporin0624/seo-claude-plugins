@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Low Contrast Example</title>
+  <meta name="description" content="This page demonstrates color contrast issues">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #ffffff;
+    }
+
+    /* Failing contrast: #999 on #fff = 2.85:1 (needs 4.5:1) */
+    .low-contrast-text {
+      color: #999999;
+      background-color: #ffffff;
+    }
+
+    /* Failing contrast: #ccc on #fff = 1.61:1 */
+    .very-low-contrast {
+      color: #cccccc;
+      background-color: #ffffff;
+    }
+
+    /* Borderline pass: #767676 on #fff = 4.54:1 */
+    .borderline-contrast {
+      color: #767676;
+      background-color: #ffffff;
+    }
+
+    /* Good contrast: #333 on #fff = 12.63:1 */
+    .good-contrast {
+      color: #333333;
+      background-color: #ffffff;
+    }
+
+    /* Large text with insufficient contrast */
+    .large-text-low-contrast {
+      font-size: 18pt;
+      color: #aaaaaa; /* 2.32:1 - needs 3:1 for large text */
+      background-color: #ffffff;
+    }
+
+    /* Button with low contrast */
+    .low-contrast-button {
+      background-color: #e0e0e0;
+      color: #ffffff; /* 1.45:1 - very poor */
+      padding: 10px 20px;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Color Contrast Test Page</h1>
+
+  <p class="low-contrast-text">This text has insufficient contrast ratio (2.85:1).</p>
+
+  <p class="very-low-contrast">This text is barely visible (1.61:1).</p>
+
+  <p class="borderline-contrast">This text barely passes AA requirements (4.54:1).</p>
+
+  <p class="good-contrast">This text has good contrast (12.63:1).</p>
+
+  <p class="large-text-low-contrast">Large text with low contrast (fails even relaxed 3:1 requirement).</p>
+
+  <button class="low-contrast-button">Low Contrast Button</button>
+</body>
+</html>
