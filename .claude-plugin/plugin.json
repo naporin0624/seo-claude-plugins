@@ -9,13 +9,15 @@
   "license": "MIT",
   "keywords": ["seo", "accessibility", "wcag", "aria", "a11y", "axe-core"],
   "skills": [
-    "skills/seo-a11y-analyzer",
-    "skills/wcag-aria-lookup",
-    "skills/html-lint-runner",
-    "skills/a11y-self-check"
+    "./skills/seo-a11y-analyzer",
+    "./skills/wcag-aria-lookup",
+    "./skills/html-lint-runner",
+    "./skills/a11y-self-check"
   ],
   "commands": [
-    "commands/"
+    "./commands/a11y-audit.md"
   ],
-  "agents": "agents/"
+  "agents": [
+    "./agents/a11y-fixer.md"
+  ]
 }
