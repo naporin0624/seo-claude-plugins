@@ -10,29 +10,50 @@ This is a **Claude Code plugin** that provides SEO and WCAG 2.1 AA accessibility
 
 ```
 seo-claude-plugins/
-├── plugin.json                    # Plugin manifest (declares 2 skills)
+├── plugin.json                    # Plugin manifest (v2.0.0, declares 2 skills)
 ├── skills/
 │   ├── seo-a11y-analyzer/        # Core analysis skill
-│   │   ├── SKILL.md              # Main skill definition
-│   │   ├── reference/*.md        # Progressive disclosure docs
-│   │   └── scripts/              # axe-core CLI wrapper
-│   └── wcag-aria-lookup/         # WCAG & ARIA lookup skill
+│   │   ├── SKILL.md              # 5-step analysis workflow
+│   │   ├── reference/            # Progressive disclosure docs
+│   │   │   ├── color-contrast.md # Common color combinations
+│   │   │   ├── seo-checks.md     # 30-item SEO checklist
+│   │   │   ├── wcag-quick-ref.md # WCAG criteria reference
+│   │   │   └── examples.md       # Audit examples
+│   │   └── scripts/
+│   │       └── validate-with-axe.sh  # axe-core CLI wrapper
+│   └── wcag-aria-lookup/         # Lookup-based reference skill
 │       ├── SKILL.md              # Lookup workflow definition
-│       ├── wcag-index.json       # WCAG 2.1 AA criteria index (50 criteria)
-│       └── aria-index.json       # ARIA roles, attributes, patterns index
-└── test/fixtures/                 # Test HTML files with intentional issues
+│       ├── wcag-index.json       # WCAG 2.1 Level A+AA (50 criteria)
+│       └── aria-index.json       # ARIA roles/attributes/patterns
+├── test/fixtures/                # Test HTML files with intentional issues
+└── plans/                        # Development planning docs
 ```
 
-### Plugin Structure
+## The Two Skills
 
-- **plugin.json**: Manifest file declaring plugin name, version, and skills array
-- **SKILL.md**: Skill definitions with YAML frontmatter (`name`, `description`) and markdown body
-- Skills use **progressive disclosure**: main SKILL.md provides overview, JSON indexes for efficient lookup
+### 1. seo-a11y-analyzer
+Workflow-based analysis skill with 5-step process:
+1. Read target file
+2. Run quick checks (P0 critical issues)
+3. Run detailed checks (all issues)
+4. Validate with axe-core CLI
+5. Generate report with fixes
 
-### The Two Skills
+**Triggers**: "a11y", "contrast", "alt text", "meta tags", "heading structure", "accessibility audit"
 
-1. **seo-a11y-analyzer**: Workflow-based analysis skill with 5-step process (read → quick checks → detailed checks → axe-core validation → report)
-2. **wcag-aria-lookup**: Lookup-based skill returning official W3C URLs and summaries for WCAG criteria and ARIA patterns (uses JSON indexes for efficient keyword search)
+### 2. wcag-aria-lookup
+Lookup-based reference skill that searches JSON indexes and returns:
+- Official W3C URLs
+- Concise summaries
+- Key requirements
+
+**Triggers**: "WCAG", "1.4.3", "aria-expanded", "role=dialog", "accessible tabs"
+
+**Index coverage**:
+- WCAG criteria: 50 (Level A + AA)
+- ARIA roles: 24
+- ARIA attributes: 28
+- ARIA patterns: 12
 
 ## Development Commands
 
@@ -51,7 +72,23 @@ for f in test/fixtures/*.html; do
 done
 ```
 
-### Test Fixtures
+### Test Lookup Skill
+
+```bash
+# Search WCAG by ID
+cat skills/wcag-aria-lookup/wcag-index.json | jq '.criteria["1.4.3"]'
+
+# Search WCAG by keyword
+cat skills/wcag-aria-lookup/wcag-index.json | jq '[.criteria | to_entries[] | select(.value.keywords | contains(["contrast"]))]'
+
+# Search ARIA role
+cat skills/wcag-aria-lookup/aria-index.json | jq '.roles.dialog'
+
+# Search ARIA pattern
+cat skills/wcag-aria-lookup/aria-index.json | jq '.patterns.tabs'
+```
+
+## Test Fixtures
 
 Located in `test/fixtures/` - HTML files with intentional accessibility/SEO issues:
 - `missing-meta.html` - Missing title, meta description, multiple H1s
@@ -86,6 +123,20 @@ Analysis reports follow this structure:
 **Fix**: [code example]
 ```
 
+### Lookup Response Format
+
+```markdown
+### [Criterion/Pattern Name]
+
+**Summary**: [1-2 sentence explanation]
+
+**Key Requirements**:
+- [Requirement 1]
+- [Requirement 2]
+
+**Official Reference**: [W3C URL]
+```
+
 ### Validation Loop
 
 For complex fixes: Apply fix → Re-run axe-core → Confirm resolution → Only proceed when validation passes
@@ -94,4 +145,33 @@ For complex fixes: Apply fix → Re-run axe-core → Confirm resolution → Only
 
 - **Normal text contrast**: 4.5:1 minimum
 - **Large text (18pt/14pt bold+)**: 3:1 minimum
+- **UI components**: 3:1 minimum
 - **Focus on Level AA**: Most commonly required standard (US Section 508, EU EN 301 549, Japan JIS X 8341-3)
+
+## JSON Index Structure
+
+### wcag-index.json
+```json
+{
+  "criteria": {
+    "1.4.3": {
+      "name": "Contrast (Minimum)",
+      "level": "AA",
+      "summary": "...",
+      "keywords": ["contrast", "コントラスト", ...],
+      "requirements": [...],
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/...",
+      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#..."
+    }
+  }
+}
+```
+
+### aria-index.json
+```json
+{
+  "roles": { ... },
+  "attributes": { ... },
+  "patterns": { ... }
+}
+```
