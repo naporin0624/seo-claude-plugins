@@ -1,0 +1,32 @@
+{
+  "name": "sast-runner",
+  "version": "1.0.0",
+  "description": "Semgrep wrapper for Static Application Security Testing",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "sast-runner": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsdown src/index.ts --format esm --dts",
+    "prepare": "npm run build",
+    "scan": "node dist/index.js"
+  },
+  "keywords": [
+    "semgrep",
+    "sast",
+    "security",
+    "static-analysis",
+    "devsecops"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsdown": "^0.9.0",
+    "typescript": "^5.7.0"
+  }
+}

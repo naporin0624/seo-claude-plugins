@@ -1,0 +1,240 @@
+{
+  "version": "1.0",
+  "description": "OWASP DevSecOps Pipeline Phases Index",
+  "source": "https://owasp.org/www-project-devsecops-guideline/",
+  "phases": {
+    "design": {
+      "name": "Design Phase",
+      "phase_id": "2-1",
+      "description": "Threat modeling and secure design principles before coding begins",
+      "keywords": ["threat modeling", "secure design", "STRIDE", "DREAD", "attack surface", "脅威モデリング", "設計"],
+      "activities": [
+        {
+          "id": "threat-modeling",
+          "name": "Threat Modeling",
+          "description": "Identify and prioritize potential threats using structured methodologies",
+          "tools": ["Microsoft Threat Modeling Tool", "OWASP Threat Dragon", "Threagile", "IriusRisk"],
+          "outputs": ["Threat model document", "Risk register", "Security requirements", "Data flow diagrams"]
+        },
+        {
+          "id": "secure-design-review",
+          "name": "Secure Design Review",
+          "description": "Review architecture for security anti-patterns and vulnerabilities",
+          "tools": ["Architecture review checklist", "STRIDE per element"],
+          "outputs": ["Design review findings", "Security architecture recommendations"]
+        }
+      ],
+      "cwes": ["CWE-1059"],
+      "owasp_top10": ["A04:2021 Insecure Design"],
+      "url": "https://owasp.org/www-project-devsecops-guideline/latest/02a-Threat-modeling"
+    },
+    "develop": {
+      "name": "Develop Phase (Pre-commit)",
+      "phase_id": "2-2",
+      "description": "Security checks before code is committed to version control",
+      "keywords": ["pre-commit", "secret detection", "linting", "hooks", "開発", "コミット前", "シークレット"],
+      "activities": [
+        {
+          "id": "secret-detection",
+          "name": "Secret Detection",
+          "description": "Scan for hardcoded secrets, credentials, API keys, and tokens",
+          "tools": ["Gitleaks", "TruffleHog", "detect-secrets", "git-secrets", "ggshield"],
+          "severity": "critical",
+          "cwes": ["CWE-798", "CWE-259", "CWE-321", "CWE-312"]
+        },
+        {
+          "id": "pre-commit-hooks",
+          "name": "Pre-commit Hooks",
+          "description": "Automated checks before git commit using hook framework",
+          "tools": ["pre-commit", "husky", "lefthook", "overcommit"],
+          "outputs": ["Pass/fail status", "Blocking on security issues"]
+        },
+        {
+          "id": "security-linting",
+          "name": "Security Linting",
+          "description": "Static code style and basic security checks",
+          "tools": ["ESLint (eslint-plugin-security)", "Pylint", "golangci-lint", "RuboCop"],
+          "cwes": ["CWE-20", "CWE-116"]
+        },
+        {
+          "id": "repo-hardening",
+          "name": "Repository Hardening",
+          "description": "Secure repository configuration and branch protection",
+          "tools": ["GitHub branch protection", "GitLab protected branches", "CODEOWNERS"],
+          "outputs": ["Protected main branch", "Required reviews", "Signed commits"]
+        }
+      ],
+      "cwes": ["CWE-798", "CWE-259", "CWE-321", "CWE-312", "CWE-20"],
+      "owasp_top10": ["A02:2021 Cryptographic Failures", "A07:2021 Identification and Authentication Failures"],
+      "url": "https://owasp.org/www-project-devsecops-guideline/latest/02b-Pre-commit"
+    },
+    "build": {
+      "name": "Build Phase",
+      "phase_id": "2-3",
+      "description": "Security testing during CI/CD build pipeline",
+      "keywords": ["SAST", "SCA", "container", "IaC", "ビルド", "静的解析", "依存関係", "コンテナ"],
+      "activities": [
+        {
+          "id": "sast",
+          "name": "Static Application Security Testing (SAST)",
+          "description": "Analyze source code for security vulnerabilities without execution",
+          "tools": ["Semgrep", "SonarQube", "CodeQL", "Checkmarx", "Snyk Code", "Fortify"],
+          "severity": "high",
+          "cwes": ["CWE-89", "CWE-79", "CWE-94", "CWE-78", "CWE-22", "CWE-502"],
+          "languages": ["JavaScript", "TypeScript", "Python", "Go", "Java", "Ruby", "C#", "PHP"]
+        },
+        {
+          "id": "sca",
+          "name": "Software Composition Analysis (SCA)",
+          "description": "Scan dependencies for known vulnerabilities (CVEs)",
+          "tools": ["npm audit", "Trivy", "Snyk", "Dependabot", "OWASP Dependency-Check", "Renovate"],
+          "severity": "high",
+          "cwes": ["CWE-1035", "CWE-937", "CWE-506"],
+          "outputs": ["CVE list", "Upgrade recommendations", "License compliance"]
+        },
+        {
+          "id": "container-security",
+          "name": "Container Security",
+          "description": "Scan container images and Dockerfiles for vulnerabilities and misconfigurations",
+          "tools": ["Trivy", "Grype", "Hadolint", "Dockle", "Clair", "Anchore"],
+          "severity": "high",
+          "cwes": ["CWE-250", "CWE-269"],
+          "outputs": ["Image CVEs", "Dockerfile violations", "Base image recommendations"]
+        },
+        {
+          "id": "iac-security",
+          "name": "Infrastructure as Code Security",
+          "description": "Scan Terraform, Kubernetes, CloudFormation, and Helm configurations",
+          "tools": ["tfsec", "Checkov", "Terrascan", "kubelinter", "kics", "Trivy config"],
+          "severity": "high",
+          "cwes": ["CWE-732", "CWE-284"],
+          "frameworks": ["Terraform", "Kubernetes", "CloudFormation", "Helm", "Ansible", "ARM"]
+        },
+        {
+          "id": "security-gates",
+          "name": "Security Gates",
+          "description": "Quality gates that block builds with critical/high findings",
+          "tools": ["SonarQube Quality Gates", "Custom CI rules", "OPA Gatekeeper"],
+          "outputs": ["Pass/fail status", "Blocking criteria enforcement"]
+        }
+      ],
+      "cwes": ["CWE-89", "CWE-79", "CWE-94", "CWE-78", "CWE-1035", "CWE-937", "CWE-250", "CWE-732"],
+      "owasp_top10": ["A03:2021 Injection", "A06:2021 Vulnerable and Outdated Components", "A05:2021 Security Misconfiguration"],
+      "url": "https://owasp.org/www-project-devsecops-guideline/latest/02c-Build"
+    },
+    "test": {
+      "name": "Test Phase",
+      "phase_id": "2-4",
+      "description": "Dynamic security testing against running applications",
+      "keywords": ["DAST", "IAST", "API security", "テスト", "動的解析", "API"],
+      "activities": [
+        {
+          "id": "dast",
+          "name": "Dynamic Application Security Testing (DAST)",
+          "description": "Test running application for vulnerabilities from external perspective",
+          "tools": ["OWASP ZAP", "Burp Suite", "Nuclei", "Nikto", "Arachni"],
+          "severity": "high",
+          "cwes": ["CWE-89", "CWE-79", "CWE-352", "CWE-601"],
+          "modes": ["baseline", "full-scan", "api-scan"]
+        },
+        {
+          "id": "iast",
+          "name": "Interactive Application Security Testing (IAST)",
+          "description": "Combined static and dynamic analysis with instrumented runtime",
+          "tools": ["Contrast Security", "Hdiv", "Seeker", "Datadog ASM"],
+          "outputs": ["Real-time vulnerability detection", "Code-level context"]
+        },
+        {
+          "id": "api-security",
+          "name": "API Security Testing",
+          "description": "Test REST/GraphQL API endpoints for security issues",
+          "tools": ["OWASP ZAP API Scan", "Postman Security", "42Crunch", "APIsec"],
+          "cwes": ["CWE-284", "CWE-285", "CWE-639"],
+          "standards": ["OWASP API Top 10"]
+        },
+        {
+          "id": "misconfig-check",
+          "name": "Misconfiguration Checking",
+          "description": "Verify security headers, CORS, and deployment configurations",
+          "tools": ["Mozilla Observatory", "SecurityHeaders.com", "testssl.sh"],
+          "cwes": ["CWE-16", "CWE-693"],
+          "checks": ["CSP", "HSTS", "X-Frame-Options", "CORS", "TLS configuration"]
+        }
+      ],
+      "cwes": ["CWE-89", "CWE-79", "CWE-352", "CWE-284", "CWE-16"],
+      "owasp_top10": ["A03:2021 Injection", "A01:2021 Broken Access Control", "A05:2021 Security Misconfiguration"],
+      "url": "https://owasp.org/www-project-devsecops-guideline/latest/02d-Test"
+    },
+    "deploy": {
+      "name": "Deploy Phase",
+      "phase_id": "2-6",
+      "description": "Security controls during deployment to production",
+      "keywords": ["deployment", "デプロイ", "リリース", "本番"],
+      "activities": [
+        {
+          "id": "security-gates-deploy",
+          "name": "Deployment Security Gates",
+          "description": "Final security approval before production deployment",
+          "tools": ["ArgoCD", "Spinnaker", "GitHub Environments"],
+          "outputs": ["Approval workflows", "Rollback capability"]
+        },
+        {
+          "id": "config-validation",
+          "name": "Configuration Validation",
+          "description": "Verify production configuration matches security baseline",
+          "tools": ["OPA Conftest", "Kyverno", "Admission controllers"],
+          "checks": ["Resource limits", "Network policies", "RBAC"]
+        },
+        {
+          "id": "signing-verification",
+          "name": "Artifact Signing and Verification",
+          "description": "Cryptographically sign and verify container images and artifacts",
+          "tools": ["Cosign", "Notary", "in-toto", "SLSA"],
+          "outputs": ["Signed images", "Provenance attestation"]
+        }
+      ],
+      "cwes": ["CWE-284", "CWE-345"],
+      "owasp_top10": ["A08:2021 Software and Data Integrity Failures"],
+      "url": "https://owasp.org/www-project-devsecops-guideline/latest/02f-Deploy"
+    },
+    "operate": {
+      "name": "Operate Phase",
+      "phase_id": "2-7",
+      "description": "Runtime security monitoring and continuous assessment",
+      "keywords": ["monitoring", "logging", "CNAPP", "運用", "監視", "ペンテスト"],
+      "activities": [
+        {
+          "id": "vulnerability-management",
+          "name": "Vulnerability Management",
+          "description": "Continuous vulnerability monitoring and remediation tracking",
+          "tools": ["Qualys", "Tenable", "Rapid7", "DefectDojo"],
+          "outputs": ["Vulnerability inventory", "Remediation SLAs", "Risk scoring"]
+        },
+        {
+          "id": "security-monitoring",
+          "name": "Security Monitoring and Logging",
+          "description": "Collect, analyze, and alert on security events",
+          "tools": ["Falco", "SIEM (Splunk, Elastic)", "CloudTrail", "Wazuh"],
+          "outputs": ["Security alerts", "Audit logs", "Incident detection"]
+        },
+        {
+          "id": "penetration-testing",
+          "name": "Penetration Testing",
+          "description": "Periodic manual security assessments by ethical hackers",
+          "tools": ["Manual testing", "Bug bounty programs", "Red team exercises"],
+          "frequency": "Quarterly or after major changes"
+        },
+        {
+          "id": "cnapp",
+          "name": "Cloud-Native Application Protection (CNAPP)",
+          "description": "Unified cloud security posture management",
+          "tools": ["Wiz", "Orca", "Lacework", "Prisma Cloud", "Aqua"],
+          "outputs": ["Cloud posture assessment", "Runtime protection", "Compliance reporting"]
+        }
+      ],
+      "cwes": ["CWE-778", "CWE-223"],
+      "owasp_top10": ["A09:2021 Security Logging and Monitoring Failures"],
+      "url": "https://owasp.org/www-project-devsecops-guideline/latest/02g-Operate"
+    }
+  }
+}

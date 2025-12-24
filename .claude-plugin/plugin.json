@@ -1,7 +1,7 @@
 {
   "name": "web-audit-tools",
-  "version": "3.2.0",
-  "description": "Comprehensive SEO, WCAG 2.1 AA accessibility, web resource analysis, and security testing tools with bounty hunter agents",
+  "version": "3.3.0",
+  "description": "Comprehensive SEO, WCAG 2.1 AA accessibility, web resource analysis, DevSecOps security testing, and bounty hunter agents",
   "author": {
     "name": "naporin0624"
   },
@@ -30,7 +30,18 @@
     "idor",
     "cve",
     "bounty-hunter",
-    "penetration-testing"
+    "penetration-testing",
+    "devsecops",
+    "sast",
+    "sca",
+    "gitleaks",
+    "semgrep",
+    "trivy",
+    "hadolint",
+    "tfsec",
+    "terraform",
+    "container-security",
+    "iac-security"
   ],
   "skills": [
     "./skills/seo-a11y-analyzer",
@@ -44,19 +55,31 @@
     "./skills/attack-methods-lookup",
     "./skills/cve-search",
     "./skills/form-security-analyzer",
-    "./skills/playwright-security-runner"
+    "./skills/playwright-security-runner",
+    "./skills/devsecops-lookup",
+    "./skills/secret-scanner",
+    "./skills/sast-runner",
+    "./skills/sca-runner",
+    "./skills/container-scanner",
+    "./skills/iac-scanner"
   ],
   "commands": [
     "./commands/a11y-audit.md",
     "./commands/seo-audit.md",
     "./commands/web-audit.md",
-    "./commands/website-hunter.md"
+    "./commands/website-hunter.md",
+    "./commands/devsecops-audit.md"
   ],
   "agents": [
     "./agents/a11y-fixer.md",
     "./agents/xss-hunter.md",
     "./agents/sqli-hunter.md",
     "./agents/csrf-hunter.md",
-    "./agents/idor-hunter.md"
+    "./agents/idor-hunter.md",
+    "./agents/gitleaks-agent.md",
+    "./agents/semgrep-agent.md",
+    "./agents/trivy-agent.md",
+    "./agents/hadolint-agent.md",
+    "./agents/tfsec-agent.md"
   ]
 }

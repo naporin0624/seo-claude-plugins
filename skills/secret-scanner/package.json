@@ -1,0 +1,32 @@
+{
+  "name": "secret-scanner",
+  "version": "1.0.0",
+  "description": "Gitleaks wrapper for secret detection in git repositories",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "secret-scanner": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsdown src/index.ts --format esm --dts",
+    "prepare": "npm run build",
+    "scan": "node dist/index.js"
+  },
+  "keywords": [
+    "gitleaks",
+    "secrets",
+    "credentials",
+    "security",
+    "devsecops"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsdown": "^0.9.0",
+    "typescript": "^5.7.0"
+  }
+}
