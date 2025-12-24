@@ -4,271 +4,144 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a **Claude Code plugin marketplace** that provides SEO and WCAG 2.1 AA accessibility analysis tools for HTML/JSX/TSX files. The plugin includes automated linting, WCAG/ARIA reference lookup, and a command-driven audit workflow with subagent support.
+A Claude Code plugin marketplace (web-audit-tools v3.2.0) providing comprehensive web audit tools:
+- **SEO Analysis**: Meta tags, Open Graph, Twitter Cards, structured data, Lighthouse integration
+- **WCAG 2.1 AA Accessibility**: Color contrast, ARIA patterns, automated linting with axe-core + markuplint
+- **Security Testing**: Bounty hunter agents for XSS, SQLi, CSRF, IDOR with OWASP Top 10 coverage and CVE search
 
 ## Architecture
 
 ```
-seo-claude-plugins/
-├── .claude-plugin/                # Marketplace and plugin configuration
-│   ├── marketplace.json           # Marketplace manifest
-│   └── plugin.json                # Plugin manifest (v3.0.0)
-├── skills/
-│   ├── seo-a11y-analyzer/        # Core analysis skill (5-step workflow)
-│   ├── wcag-aria-lookup/         # Lookup-based WCAG/ARIA reference
-│   │   ├── SKILL.md
-│   │   ├── wcag-index.json       # 50 WCAG 2.1 Level A+AA criteria
-│   │   └── aria-index.json       # 24 roles, 28 attributes, 12 patterns
-│   ├── html-lint-runner/         # Automated linting with axe-core + markuplint
-│   │   ├── SKILL.md
-│   │   ├── scripts/
-│   │   │   ├── lint-html.sh      # Combined lint (JSON output)
-│   │   │   └── run-markuplint.sh # Standalone markuplint
-│   │   └── configs/
-│   │       └── markuplintrc.json # JSX/TSX parser config
-│   ├── a11y-self-check/          # Proactive self-validation for Claude Code
-│   │   └── SKILL.md
-│   ├── seo-lookup/               # SEO reference lookup (NEW in v3.0)
-│   │   ├── SKILL.md
-│   │   ├── seo-index.json        # Meta tags, OG, Twitter Card reference
-│   │   └── structured-data-index.json  # JSON-LD schema reference
-│   ├── seo-analyzer/             # Static SEO analysis (NEW in v3.0)
-│   │   ├── SKILL.md
-│   │   ├── package.json          # cheerio dependency
-│   │   └── scripts/
-│   │       ├── analyze-seo.js    # Static SEO checks
-│   │       ├── keyword-analyzer.js
-│   │       └── run-seo-analyzer.sh
-│   └── lighthouse-runner/        # Lighthouse integration (NEW in v3.0)
-│       ├── SKILL.md
-│       ├── package.json          # puppeteer, lighthouse dependency
-│       └── scripts/
-│           ├── run-lighthouse.js
-│           └── run-lighthouse.sh
-├── commands/
-│   ├── a11y-audit.md             # /a11y-audit command
-│   └── seo-audit.md              # /seo-audit command (NEW in v3.0)
-├── agents/
-│   └── a11y-fixer.md             # Subagent for analysis (read-only)
-├── test/fixtures/                # Test HTML files with intentional issues
-└── plans/                        # Development planning docs
+.claude-plugin/
+├── marketplace.json           # Marketplace manifest
+└── plugin.json                # Plugin manifest (defines all skills/commands/agents)
+
+skills/
+├── seo-a11y-analyzer/        # Core 5-step analysis workflow
+├── wcag-aria-lookup/         # WCAG 2.1 AA + ARIA pattern reference (JSON indexes)
+├── html-lint-runner/         # axe-core + markuplint CLI wrapper
+├── a11y-self-check/          # Proactive self-validation for Claude Code
+├── seo-lookup/               # SEO best practices reference (JSON indexes)
+├── seo-analyzer/             # Static SEO analysis with cheerio
+├── lighthouse-runner/        # Lighthouse via Puppeteer
+├── web-resource-checker/     # sitemap.xml, robots.txt, llms.txt, security.txt validation
+├── attack-methods-lookup/    # OWASP Top 10 + CWE reference (JSON indexes)
+├── cve-search/               # NVD API integration
+├── form-security-analyzer/   # Static form security analysis
+└── playwright-security-runner/ # Dynamic security testing
+
+commands/
+├── a11y-audit.md             # /a11y-audit - accessibility audit
+├── seo-audit.md              # /seo-audit - SEO audit (static + Lighthouse)
+├── web-audit.md              # /web-audit - combined web audit
+└── website-hunter.md         # /website-hunter - parallel bounty hunter deployment
+
+agents/
+├── a11y-fixer.md             # Accessibility fixes (read-only, suggests but doesn't modify)
+├── xss-hunter.md             # XSS vulnerability hunting
+├── sqli-hunter.md            # SQL injection hunting
+├── csrf-hunter.md            # CSRF vulnerability hunting
+└── idor-hunter.md            # IDOR/authorization bypass hunting
 ```
 
-## The Seven Skills
-
-### 1. seo-a11y-analyzer
-Workflow-based analysis skill with 5-step process:
-1. Read target file
-2. Run quick checks (P0 critical issues)
-3. Run detailed checks (all issues)
-4. Validate with axe-core CLI
-5. Generate report with fixes
-
-**Triggers**: "a11y", "contrast", "alt text", "meta tags", "heading structure", "accessibility audit"
-
-### 2. wcag-aria-lookup
-Lookup-based reference skill that searches JSON indexes and returns:
-- Official W3C URLs
-- Concise summaries
-- Key requirements
-
-**Triggers**: "WCAG", "1.4.3", "aria-expanded", "role=dialog", "accessible tabs"
-
-**Index coverage**:
-- WCAG criteria: 50 (Level A + AA)
-- ARIA roles: 24
-- ARIA attributes: 28
-- ARIA patterns: 12
-
-### 3. html-lint-runner
-Automated linting using axe-core and markuplint CLI tools.
-
-**Features**:
-- Combined lint script outputs JSON with violations and problems
-- JSX/TSX support via @markuplint/jsx-parser
-- Graceful error handling when ChromeDriver unavailable
-
-**Usage**:
-```bash
-bash ${CLAUDE_PLUGIN_ROOT}/skills/html-lint-runner/scripts/lint-html.sh <file>
-```
-
-### 4. a11y-self-check
-Proactive self-validation skill for Claude Code to validate its own generated HTML/JSX/TSX output before presenting to users.
-
-**When to use**:
-- Generating new UI components
-- Writing forms, modals, navigation
-- Modifying existing templates
-
-### 5. seo-lookup (NEW in v3.0)
-Lookup-based reference skill for SEO best practices, similar to wcag-aria-lookup.
-
-**Index coverage**:
-- Meta tags: title, description, canonical, robots, viewport
-- Open Graph: og:title, og:description, og:image, og:url, og:type
-- Twitter Cards: twitter:card, twitter:title, twitter:description, twitter:image
-- Structured Data: Article, Product, FAQPage, LocalBusiness, BreadcrumbList, etc.
-
-**Triggers**: "og:image size", "meta description length", "Article schema", "JSON-LD"
-
-**Usage**:
-```bash
-# Look up og:image requirements
-cat skills/seo-lookup/seo-index.json | jq '.["og-tags"]["og:image"]'
-
-# Look up Article schema
-cat skills/seo-lookup/structured-data-index.json | jq '.schemas.Article'
-```
-
-### 6. seo-analyzer (NEW in v3.0)
-Static SEO analysis using cheerio for HTML parsing.
-
-**Checks**:
-- Critical: title, description, H1, canonical
-- Important: robots, viewport, heading hierarchy, lang
-- Recommended: OG tags, Twitter Cards, JSON-LD
-
-**Usage**:
-```bash
-bash skills/seo-analyzer/scripts/run-seo-analyzer.sh path/to/file.html
-bash skills/seo-analyzer/scripts/run-seo-analyzer.sh path/to/file.html --json
-bash skills/seo-analyzer/scripts/run-seo-analyzer.sh path/to/file.html --keywords
-```
-
-### 7. lighthouse-runner (NEW in v3.0)
-Lighthouse integration via Puppeteer for comprehensive web quality audits.
-
-**Scores**:
-- Performance (Core Web Vitals: LCP, FID, CLS)
-- SEO
-- Accessibility
-- Best Practices
-
-**Usage**:
-```bash
-# URL analysis
-bash skills/lighthouse-runner/scripts/run-lighthouse.sh https://example.com
-
-# Local file (auto-starts server)
-bash skills/lighthouse-runner/scripts/run-lighthouse.sh path/to/file.html
-
-# Development server (Next.js/Remix)
-bash skills/lighthouse-runner/scripts/run-lighthouse.sh http://localhost:3000
-```
-
-## Commands
-
-### /a11y-audit Command
-Runs accessibility audit on specified files and provides fix **suggestions** (does NOT modify files).
+## Plugin Installation & Validation
 
 ```bash
-/a11y-audit path/to/file.html
-/a11y-audit "src/**/*.tsx"
-```
-
-### /seo-audit Command (NEW in v3.0)
-Comprehensive SEO audit combining static analysis and Lighthouse.
-
-```bash
-/seo-audit path/to/file.html           # Full audit (static + lighthouse)
-/seo-audit http://localhost:3000       # Lighthouse only (for dev server)
-/seo-audit path/to/file.html static    # Static analysis only
-```
-
-## Agent
-
-### a11y-fixer Agent
-Read-only subagent that:
-- ✅ Runs lint tools
-- ✅ Analyzes results
-- ✅ Suggests fixes with code examples
-- ❌ Does NOT modify files
-
-## Installation
-
-### Add Marketplace and Install Plugin
-
-```bash
-# Add the marketplace (from GitHub)
+# Add marketplace (from GitHub)
 /plugin marketplace add naporin0624/seo-claude-plugins
 
-# Install the plugin
-/plugin install seo-a11y-tools@seo-a11y-marketplace
+# Install plugin
+/plugin install web-audit-tools@web-audit-marketplace
 
-# Or add from local path (for development)
-/plugin marketplace add ./path/to/seo-claude-plugins
+# Validate plugin structure
+claude plugin validate .
 ```
 
-### Validate Marketplace Structure
+## Skill Dependencies
+
+Skills with node_modules require dependency installation:
 
 ```bash
-# Validate the plugin structure
-claude plugin validate .
-# Or from within Claude Code
-/plugin validate .
+cd skills/seo-analyzer && npm install        # cheerio
+cd skills/lighthouse-runner && npm install   # puppeteer, lighthouse
+cd skills/web-resource-checker && npm install # xml2js
+cd skills/cve-search && npm install
+cd skills/form-security-analyzer && npm install
+cd skills/playwright-security-runner && npm install
 ```
 
 ## Development Commands
 
-### Run Combined Lint (Recommended)
+### Run Lint Tools
 
 ```bash
 # Combined axe-core + markuplint (JSON output)
 bash skills/html-lint-runner/scripts/lint-html.sh path/to/file.html
 
-# For JSX/TSX files
-bash skills/html-lint-runner/scripts/lint-html.sh path/to/Component.tsx
-```
-
-### Validate with axe-core Only
-
-```bash
-# Single file
-./skills/seo-a11y-analyzer/scripts/validate-with-axe.sh path/to/file.html
-
-# Or directly with npx
+# axe-core only
 npx @axe-core/cli file.html --tags wcag21aa
 ```
 
-### Test Lookup Skill
+### SEO Analysis
 
 ```bash
-# Search WCAG by ID
-cat skills/wcag-aria-lookup/wcag-index.json | jq '.criteria["1.4.3"]'
-
-# Search WCAG by keyword
-cat skills/wcag-aria-lookup/wcag-index.json | jq '[.criteria | to_entries[] | select(.value.keywords | contains(["contrast"]))]'
-
-# Search ARIA role
-cat skills/wcag-aria-lookup/aria-index.json | jq '.roles.dialog'
-
-# Search ARIA pattern
-cat skills/wcag-aria-lookup/aria-index.json | jq '.patterns.tabs'
+bash skills/seo-analyzer/scripts/run-seo-analyzer.sh path/to/file.html
+bash skills/seo-analyzer/scripts/run-seo-analyzer.sh path/to/file.html --json
 ```
 
-## Test Fixtures
+### Lighthouse
 
-Located in `test/fixtures/` - HTML files with intentional accessibility/SEO issues:
-- `missing-meta.html` - Missing title, meta description, multiple H1s
-- `low-contrast.html` - Color contrast failures
-- `missing-alt.html` - Images without alt text
-- `aria-errors.html` - ARIA implementation errors
+```bash
+bash skills/lighthouse-runner/scripts/run-lighthouse.sh https://example.com
+bash skills/lighthouse-runner/scripts/run-lighthouse.sh path/to/file.html  # auto-starts server
+```
+
+### Web Resource Validation
+
+```bash
+bash skills/web-resource-checker/scripts/run-resource-check.sh https://example.com
+bash skills/web-resource-checker/scripts/run-resource-check.sh ./public --only=sitemap,robots
+```
+
+### Query JSON Indexes
+
+```bash
+# WCAG criteria
+cat skills/wcag-aria-lookup/wcag-index.json | jq '.criteria["1.4.3"]'
+
+# ARIA patterns
+cat skills/wcag-aria-lookup/aria-index.json | jq '.patterns.tabs'
+
+# SEO/OG tags
+cat skills/seo-lookup/seo-index.json | jq '.["og-tags"]["og:image"]'
+
+# OWASP categories
+cat skills/attack-methods-lookup/owasp-index.json | jq '.categories["A03"]'
+```
 
 ## Key Patterns
 
-### Skill Description Format
+### Skill YAML Frontmatter
 
-Descriptions should be third-person and include trigger words:
 ```yaml
-description: Analyzes HTML/JSX files for SEO and WCAG 2.1 AA compliance. Use when user mentions "a11y", "contrast", "alt text", or "meta tags".
+---
+name: skill-name
+description: Third-person description with trigger words. Use when user mentions "keyword1", "keyword2".
+---
 ```
+
+### Agent Behavior
+
+- **a11y-fixer**: Read-only - suggests fixes with code examples but does NOT modify files
+- **Hunter agents** (xss/sqli/csrf/idor):
+  - Static analysis first (no requests until confirmed)
+  - Production URL warning on non-localhost targets
+  - Confirmation gates before dynamic testing
 
 ### Report Output Format
 
-Analysis reports follow this structure:
 ```markdown
-# Accessibility & SEO Report: [filename]
+# [Report Type]: [filename]
 
 ## Summary
 - Critical: [count]
@@ -276,61 +149,35 @@ Analysis reports follow this structure:
 - Warnings: [count]
 
 ## Critical Issues (P0)
-### 1. [Issue Title] - [WCAG X.X.X or SEO]
+### 1. [Issue Title] - [WCAG X.X.X or OWASP AXX]
 **Problem**: [description]
 **Location**: Line [number]
 **Fix**: [code example]
 ```
 
-### Lookup Response Format
-
-```markdown
-### [Criterion/Pattern Name]
-
-**Summary**: [1-2 sentence explanation]
-
-**Key Requirements**:
-- [Requirement 1]
-- [Requirement 2]
-
-**Official Reference**: [W3C URL]
-```
-
 ### Validation Loop
 
-For complex fixes: Apply fix → Re-run axe-core → Confirm resolution → Only proceed when validation passes
+Apply fix → Re-run axe-core → Confirm resolution → Only proceed when validation passes
 
 ## WCAG Quick Reference
 
-- **Normal text contrast**: 4.5:1 minimum
-- **Large text (18pt/14pt bold+)**: 3:1 minimum
-- **UI components**: 3:1 minimum
-- **Focus on Level AA**: Most commonly required standard (US Section 508, EU EN 301 549, Japan JIS X 8341-3)
+- Normal text: 4.5:1 contrast minimum
+- Large text (18pt/14pt bold+): 3:1 minimum
+- UI components: 3:1 minimum
+- Target: Level AA (Section 508, EU EN 301 549, JIS X 8341-3)
 
-## JSON Index Structure
+## Security Testing Safety
 
-### wcag-index.json
-```json
-{
-  "criteria": {
-    "1.4.3": {
-      "name": "Contrast (Minimum)",
-      "level": "AA",
-      "summary": "...",
-      "keywords": ["contrast", "コントラスト", ...],
-      "requirements": [...],
-      "url": "https://www.w3.org/WAI/WCAG21/Understanding/...",
-      "quickref": "https://www.w3.org/WAI/WCAG21/quickref/#..."
-    }
-  }
-}
-```
+1. Static analysis first - no requests until confirmed
+2. Production URL warning - alert on non-localhost targets
+3. Payload preview - see exactly what will be sent
+4. Confirmation gates - explicit approval before dynamic testing
+5. Audit logging - all actions recorded
 
-### aria-index.json
-```json
-{
-  "roles": { ... },
-  "attributes": { ... },
-  "patterns": { ... }
-}
-```
+## Test Fixtures
+
+Located in `test/fixtures/` - HTML files with intentional issues:
+- `missing-meta.html` - Missing title, meta description
+- `low-contrast.html` - Color contrast failures
+- `missing-alt.html` - Images without alt text
+- `aria-errors.html` - ARIA implementation errors

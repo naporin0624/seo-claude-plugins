@@ -1,24 +1,40 @@
 {
-  "name": "seo-a11y-marketplace",
+  "name": "web-audit-marketplace",
   "owner": {
     "name": "naporin0624"
   },
   "metadata": {
-    "description": "SEO and WCAG 2.1 AA accessibility analysis tools for Claude Code",
-    "version": "1.0.0"
+    "description": "Comprehensive web audit tools for Claude Code - SEO, Accessibility, and Security Testing with Bounty Hunter agents",
+    "version": "2.0.0"
   },
   "plugins": [
     {
-      "name": "seo-a11y-tools",
+      "name": "web-audit-tools",
       "source": "./",
-      "description": "SEO and WCAG 2.1 AA accessibility analysis tools for HTML/JSX/TSX files. Includes automated linting with axe-core + markuplint, WCAG/ARIA reference lookup, and command-driven audit workflow.",
-      "version": "2.3.0",
+      "description": "Comprehensive web audit tools including SEO analysis, WCAG 2.1 AA accessibility checks, and security testing with specialized bounty hunter agents (XSS, SQLi, CSRF, IDOR). Features Lighthouse integration, CVE search, and parallel attack workflows.",
+      "version": "3.2.0",
       "author": {
         "name": "naporin0624"
       },
       "license": "MIT",
-      "keywords": ["seo", "accessibility", "wcag", "aria", "a11y", "axe-core"],
-      "category": "accessibility"
+      "keywords": [
+        "seo",
+        "accessibility",
+        "wcag",
+        "aria",
+        "a11y",
+        "axe-core",
+        "lighthouse",
+        "security",
+        "owasp",
+        "xss",
+        "sql-injection",
+        "csrf",
+        "idor",
+        "bounty-hunter",
+        "penetration-testing"
+      ],
+      "category": "web-development"
     }
   ]
 }

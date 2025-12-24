@@ -1,0 +1,23 @@
+{
+  "name": "form-security-analyzer",
+  "version": "1.0.0",
+  "description": "Static security analysis of HTML forms",
+  "type": "module",
+  "main": "scripts/analyze-form.js",
+  "scripts": {
+    "analyze": "node scripts/analyze-form.js"
+  },
+  "keywords": [
+    "security",
+    "form",
+    "csrf",
+    "xss",
+    "static-analysis"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12"
+  }
+}

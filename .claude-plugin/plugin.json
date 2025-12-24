@@ -1,13 +1,37 @@
 {
-  "name": "seo-a11y-tools",
-  "version": "3.1.0",
-  "description": "Comprehensive SEO, WCAG 2.1 AA accessibility, and web resource analysis tools with Lighthouse integration",
+  "name": "web-audit-tools",
+  "version": "3.2.0",
+  "description": "Comprehensive SEO, WCAG 2.1 AA accessibility, web resource analysis, and security testing tools with bounty hunter agents",
   "author": {
     "name": "naporin0624"
   },
-  "repository": "https://github.com/naporin0624/seo-claude-plugins",
+  "repository": "https://github.com/naporin0624/claude-web-audit-plugins",
   "license": "MIT",
-  "keywords": ["seo", "accessibility", "wcag", "aria", "a11y", "axe-core", "lighthouse", "core-web-vitals", "open-graph", "structured-data", "sitemap", "robots", "llms-txt", "security-txt"],
+  "keywords": [
+    "seo",
+    "accessibility",
+    "wcag",
+    "aria",
+    "a11y",
+    "axe-core",
+    "lighthouse",
+    "core-web-vitals",
+    "open-graph",
+    "structured-data",
+    "sitemap",
+    "robots",
+    "llms-txt",
+    "security-txt",
+    "security",
+    "owasp",
+    "xss",
+    "sql-injection",
+    "csrf",
+    "idor",
+    "cve",
+    "bounty-hunter",
+    "penetration-testing"
+  ],
   "skills": [
     "./skills/seo-a11y-analyzer",
     "./skills/wcag-aria-lookup",
@@ -16,14 +40,23 @@
     "./skills/seo-lookup",
     "./skills/seo-analyzer",
     "./skills/lighthouse-runner",
-    "./skills/web-resource-checker"
+    "./skills/web-resource-checker",
+    "./skills/attack-methods-lookup",
+    "./skills/cve-search",
+    "./skills/form-security-analyzer",
+    "./skills/playwright-security-runner"
   ],
   "commands": [
     "./commands/a11y-audit.md",
     "./commands/seo-audit.md",
-    "./commands/web-audit.md"
+    "./commands/web-audit.md",
+    "./commands/website-hunter.md"
   ],
   "agents": [
-    "./agents/a11y-fixer.md"
+    "./agents/a11y-fixer.md",
+    "./agents/xss-hunter.md",
+    "./agents/sqli-hunter.md",
+    "./agents/csrf-hunter.md",
+    "./agents/idor-hunter.md"
   ]
 }

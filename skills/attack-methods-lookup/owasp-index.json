@@ -1,0 +1,351 @@
+{
+  "version": "2021",
+  "description": "OWASP Top 10 2021 - Attack methods index for bounty hunters",
+  "categories": {
+    "A01": {
+      "name": "Broken Access Control",
+      "rank": 1,
+      "summary": "Access control enforces policy such that users cannot act outside of their intended permissions. Failures lead to unauthorized data disclosure, modification, or destruction.",
+      "bounty_potential": "$10,000 - $50,000+",
+      "keywords": ["access control", "authorization", "IDOR", "privilege escalation", "path traversal", "forced browsing", "アクセス制御", "認可", "権限昇格"],
+      "cwes": ["CWE-200", "CWE-201", "CWE-284", "CWE-285", "CWE-352", "CWE-425", "CWE-639", "CWE-862", "CWE-863"],
+      "attack_vectors": [
+        "Modify URL, internal state, or HTML page",
+        "Change primary key to another user's record (IDOR)",
+        "Elevation of privilege (act as user without login, act as admin when logged in as user)",
+        "Metadata manipulation (replay or tamper JWT, cookie, hidden field)",
+        "CORS misconfiguration allowing unauthorized API access",
+        "Force browsing to authenticated or privileged pages"
+      ],
+      "form_specific": [
+        "Hidden field with user ID - change it",
+        "Form action URL with object reference - modify it",
+        "Select dropdown with limited options - add your own values",
+        "Multi-step form - skip steps or go back"
+      ],
+      "test_payloads": [
+        "Change user_id=123 to user_id=124",
+        "Replace /api/users/me with /api/users/1",
+        "Add admin=true to POST body",
+        "Remove authorization header, test endpoints"
+      ],
+      "hunter_tips": [
+        "Always check if changing IDs exposes other users' data",
+        "Test horizontal (same role) AND vertical (different role) access",
+        "Check if deleting your own data lets you delete others'",
+        "API endpoints often have weaker access control than UI"
+      ],
+      "url": "https://owasp.org/Top10/A01_2021-Broken_Access_Control/"
+    },
+    "A02": {
+      "name": "Cryptographic Failures",
+      "rank": 2,
+      "summary": "Failures related to cryptography which often lead to sensitive data exposure. Previously known as 'Sensitive Data Exposure'.",
+      "bounty_potential": "$5,000 - $25,000",
+      "keywords": ["cryptography", "encryption", "sensitive data", "cleartext", "weak cipher", "TLS", "SSL", "password storage", "暗号", "平文", "パスワード"],
+      "cwes": ["CWE-259", "CWE-327", "CWE-328", "CWE-330", "CWE-331", "CWE-335", "CWE-759", "CWE-760", "CWE-916"],
+      "attack_vectors": [
+        "Data transmitted in clear text (HTTP, SMTP, FTP)",
+        "Weak or old cryptographic algorithms",
+        "Default or weak crypto keys",
+        "Improper certificate validation",
+        "Passwords stored without proper hashing"
+      ],
+      "form_specific": [
+        "Password field submitted over HTTP",
+        "Sensitive data in hidden fields (unencrypted)",
+        "Session tokens in URL parameters",
+        "Credit card data stored client-side"
+      ],
+      "test_payloads": [
+        "Check form action uses HTTPS",
+        "Inspect network for cleartext passwords",
+        "Look for base64 'encryption' (it's not)",
+        "Check cookie flags (Secure, HttpOnly)"
+      ],
+      "hunter_tips": [
+        "Check if password reset tokens are predictable",
+        "Look for hardcoded API keys in JavaScript",
+        "Test if app accepts HTTP even when HTTPS available",
+        "Check if sensitive data appears in browser history/logs"
+      ],
+      "url": "https://owasp.org/Top10/A02_2021-Cryptographic_Failures/"
+    },
+    "A03": {
+      "name": "Injection",
+      "rank": 3,
+      "summary": "User-supplied data is not validated, filtered, or sanitized. Dynamic queries or commands without context-aware escaping are sent to the interpreter.",
+      "bounty_potential": "$5,000 - $50,000+",
+      "keywords": ["injection", "SQL injection", "SQLi", "XSS", "command injection", "LDAP injection", "NoSQL", "ORM", "インジェクション", "SQLインジェクション"],
+      "cwes": ["CWE-77", "CWE-78", "CWE-79", "CWE-89", "CWE-94", "CWE-643"],
+      "attack_vectors": [
+        "SQL injection via form inputs",
+        "Cross-site scripting (XSS) via unescaped output",
+        "Command injection via shell calls",
+        "LDAP injection in directory queries",
+        "XPath injection in XML processing",
+        "Template injection in server-side templates"
+      ],
+      "form_specific": [
+        "Login forms - classic SQLi target",
+        "Search forms - often directly concatenated",
+        "Comment/feedback forms - stored XSS goldmine",
+        "File upload names - command injection vector"
+      ],
+      "test_payloads": [
+        "' OR '1'='1' --",
+        "'; DROP TABLE users--",
+        "<script>alert(document.domain)</script>",
+        "<img src=x onerror=alert(1)>",
+        "; cat /etc/passwd",
+        "{{7*7}} (template injection)"
+      ],
+      "hunter_tips": [
+        "SQLi in login forms is usually critical severity",
+        "Stored XSS pays more than reflected",
+        "Always test with encoding variations",
+        "Error messages often reveal injection success"
+      ],
+      "url": "https://owasp.org/Top10/A03_2021-Injection/"
+    },
+    "A04": {
+      "name": "Insecure Design",
+      "rank": 4,
+      "summary": "Missing or ineffective control design. Insecure design cannot be fixed by perfect implementation - there was never security controls to defend against specific attacks.",
+      "bounty_potential": "$2,500 - $15,000",
+      "keywords": ["insecure design", "threat modeling", "business logic", "secure design", "設計不備", "ビジネスロジック"],
+      "cwes": ["CWE-209", "CWE-256", "CWE-501", "CWE-522", "CWE-653"],
+      "attack_vectors": [
+        "Credential recovery with security questions only",
+        "No rate limiting on sensitive operations",
+        "Chain discount abuse in e-commerce",
+        "Unlimited registration to cause resource exhaustion",
+        "No verification of reservation/booking integrity"
+      ],
+      "form_specific": [
+        "Password reset with guessable questions",
+        "No CAPTCHA on login (brute force possible)",
+        "Price manipulation in cart forms",
+        "Quantity field accepts negative numbers"
+      ],
+      "test_payloads": [
+        "Set quantity to -1, check if price goes negative",
+        "Apply same coupon code multiple times",
+        "Register same email with different case",
+        "Skip payment step in multi-step checkout"
+      ],
+      "hunter_tips": [
+        "Business logic bugs often overlooked by scanners",
+        "Think about what the developer DIDN'T consider",
+        "Race conditions are often insecure design",
+        "Look for assumptions that can be violated"
+      ],
+      "url": "https://owasp.org/Top10/A04_2021-Insecure_Design/"
+    },
+    "A05": {
+      "name": "Security Misconfiguration",
+      "rank": 5,
+      "summary": "Missing appropriate security hardening. Improperly configured permissions, unnecessary features enabled, default accounts/passwords.",
+      "bounty_potential": "$500 - $10,000",
+      "keywords": ["misconfiguration", "default password", "unnecessary features", "error handling", "permissions", "設定ミス", "デフォルトパスワード"],
+      "cwes": ["CWE-16", "CWE-2", "CWE-215", "CWE-548", "CWE-611"],
+      "attack_vectors": [
+        "Default credentials not changed",
+        "Unnecessary features enabled (ports, services, pages)",
+        "Error handling reveals stack traces",
+        "Missing security headers",
+        "XML external entities (XXE) enabled",
+        "Directory listing enabled"
+      ],
+      "form_specific": [
+        "Debug mode exposing form data in errors",
+        "Admin forms accessible without auth",
+        "Form validation disabled in config",
+        "CORS allowing any origin"
+      ],
+      "test_payloads": [
+        "Try admin:admin, admin:password, root:root",
+        "Access /admin, /debug, /config endpoints",
+        "Send malformed data to trigger verbose errors",
+        "Check for .git, .env, backup files"
+      ],
+      "hunter_tips": [
+        "Check response headers for missing security headers",
+        "Directory bruteforce often reveals config files",
+        "Default credentials are surprisingly common",
+        "Cloud storage misconfigs can be critical"
+      ],
+      "url": "https://owasp.org/Top10/A05_2021-Security_Misconfiguration/"
+    },
+    "A06": {
+      "name": "Vulnerable and Outdated Components",
+      "rank": 6,
+      "summary": "Using components with known vulnerabilities. Operating systems, web servers, DBMS, APIs, libraries, and all components may be vulnerable.",
+      "bounty_potential": "$1,000 - $25,000",
+      "keywords": ["outdated", "vulnerable component", "CVE", "library", "dependency", "脆弱なコンポーネント", "古いバージョン", "依存関係"],
+      "cwes": ["CWE-937", "CWE-1035", "CWE-1104"],
+      "attack_vectors": [
+        "Exploit known CVEs in libraries",
+        "Outdated frameworks with public exploits",
+        "Unpatched server software",
+        "Vulnerable JavaScript libraries in frontend"
+      ],
+      "form_specific": [
+        "jQuery versions with known XSS",
+        "Rich text editors with vulnerabilities",
+        "File upload libraries with bypasses",
+        "Form validation libraries with issues"
+      ],
+      "test_payloads": [
+        "Check /package.json for dependency versions",
+        "Use Retire.js for frontend libraries",
+        "Check server headers for version info",
+        "Search CVE databases for known issues"
+      ],
+      "hunter_tips": [
+        "Chain low-severity CVEs for bigger impact",
+        "Frontend libraries often forgotten in updates",
+        "Use tools like npm audit, snyk",
+        "Check if exploits are available on exploit-db"
+      ],
+      "url": "https://owasp.org/Top10/A06_2021-Vulnerable_and_Outdated_Components/"
+    },
+    "A07": {
+      "name": "Identification and Authentication Failures",
+      "rank": 7,
+      "summary": "Confirmation of user identity, authentication, and session management is critical. Weaknesses may allow attackers to assume other users' identities.",
+      "bounty_potential": "$5,000 - $50,000+",
+      "keywords": ["authentication", "session", "password", "brute force", "session fixation", "credential stuffing", "認証", "セッション", "ブルートフォース"],
+      "cwes": ["CWE-255", "CWE-259", "CWE-287", "CWE-288", "CWE-290", "CWE-294", "CWE-295", "CWE-297", "CWE-300", "CWE-302", "CWE-304", "CWE-306", "CWE-307", "CWE-384", "CWE-521", "CWE-613", "CWE-620", "CWE-640", "CWE-798", "CWE-940", "CWE-1216"],
+      "attack_vectors": [
+        "Credential stuffing with known breached passwords",
+        "Brute force without rate limiting",
+        "Weak or default passwords allowed",
+        "Weak password recovery (predictable questions)",
+        "Session fixation attacks",
+        "Sessions not invalidated on logout"
+      ],
+      "form_specific": [
+        "Login form without rate limiting",
+        "Password reset without proper verification",
+        "Remember me token that never expires",
+        "Session ID in URL after login"
+      ],
+      "test_payloads": [
+        "Try 1000 common passwords",
+        "Test if session persists after password change",
+        "Check if logout actually invalidates session",
+        "Test password reset token expiry"
+      ],
+      "hunter_tips": [
+        "Account takeover via password reset is high severity",
+        "Check for username enumeration in login/reset",
+        "Test multi-factor authentication bypass",
+        "Session tokens should rotate after login"
+      ],
+      "url": "https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/"
+    },
+    "A08": {
+      "name": "Software and Data Integrity Failures",
+      "rank": 8,
+      "summary": "Code and infrastructure that does not protect against integrity violations. Using untrusted sources, insecure CI/CD pipelines, auto-update without verification.",
+      "bounty_potential": "$5,000 - $50,000+",
+      "keywords": ["integrity", "CI/CD", "deserialization", "supply chain", "auto-update", "整合性", "デシリアライゼーション", "サプライチェーン"],
+      "cwes": ["CWE-345", "CWE-353", "CWE-426", "CWE-494", "CWE-502", "CWE-565", "CWE-784", "CWE-829", "CWE-830", "CWE-915"],
+      "attack_vectors": [
+        "Insecure deserialization of untrusted data",
+        "CI/CD pipeline manipulation",
+        "Unsigned updates or plugins",
+        "CDN compromise affecting JavaScript integrity"
+      ],
+      "form_specific": [
+        "Serialized session data in hidden fields",
+        "Cookie-based object storage without signing",
+        "Form data processed through unsafe deserializers",
+        "JavaScript loaded without SRI"
+      ],
+      "test_payloads": [
+        "Modify serialized data in cookies/forms",
+        "Inject objects in deserialization",
+        "Check SRI on external scripts",
+        "Look for viewstate-like parameters"
+      ],
+      "hunter_tips": [
+        "Deserialization bugs can lead to RCE",
+        "Check for .NET ViewState, Java serialized objects",
+        "PHP unserialize() is often vulnerable",
+        "Supply chain attacks are increasingly valuable"
+      ],
+      "url": "https://owasp.org/Top10/A08_2021-Software_and_Data_Integrity_Failures/"
+    },
+    "A09": {
+      "name": "Security Logging and Monitoring Failures",
+      "rank": 9,
+      "summary": "Without logging and monitoring, breaches cannot be detected. Insufficient logging, detection, monitoring, and active response allows attackers to persist.",
+      "bounty_potential": "$500 - $5,000",
+      "keywords": ["logging", "monitoring", "detection", "incident response", "audit", "ロギング", "監視", "検知"],
+      "cwes": ["CWE-117", "CWE-223", "CWE-532", "CWE-778"],
+      "attack_vectors": [
+        "Logins, failed logins not logged",
+        "Warnings and errors not generating logs",
+        "Logs not monitored for suspicious activity",
+        "No alerting thresholds",
+        "Penetration testing not triggering alerts"
+      ],
+      "form_specific": [
+        "Failed login attempts not logged",
+        "Sensitive operations not audited",
+        "No rate limiting alerts",
+        "Form tampering not detected"
+      ],
+      "test_payloads": [
+        "Generate 100 failed logins, check if blocked",
+        "Perform obvious attacks, see if detected",
+        "Check if logs are accessible to attackers",
+        "Test log injection with newlines"
+      ],
+      "hunter_tips": [
+        "Logging failures are low severity but can upgrade other bugs",
+        "Log injection can be chained with other issues",
+        "Check if logs expose sensitive data",
+        "Missing logging often indicates weak security overall"
+      ],
+      "url": "https://owasp.org/Top10/A09_2021-Security_Logging_and_Monitoring_Failures/"
+    },
+    "A10": {
+      "name": "Server-Side Request Forgery (SSRF)",
+      "rank": 10,
+      "summary": "SSRF occurs when a web application fetches a remote resource without validating the user-supplied URL. Allows attacker to make requests from the server.",
+      "bounty_potential": "$5,000 - $50,000+",
+      "keywords": ["SSRF", "server-side request forgery", "internal network", "metadata", "cloud", "SSRF", "内部ネットワーク", "メタデータ"],
+      "cwes": ["CWE-918"],
+      "attack_vectors": [
+        "Fetch internal services via user-supplied URL",
+        "Access cloud metadata endpoints (169.254.169.254)",
+        "Port scanning internal network",
+        "Bypass access controls via server trust",
+        "Protocol smuggling (file://, gopher://)"
+      ],
+      "form_specific": [
+        "URL preview/fetch features",
+        "Profile picture from URL",
+        "PDF generation from URL",
+        "Import from external source"
+      ],
+      "test_payloads": [
+        "http://169.254.169.254/latest/meta-data/",
+        "http://localhost:22/",
+        "http://127.0.0.1:6379/",
+        "file:///etc/passwd",
+        "http://internal-service:8080/"
+      ],
+      "hunter_tips": [
+        "Cloud metadata access often leads to account takeover",
+        "SSRF + cloud = potentially critical",
+        "Try different protocols and encoding",
+        "Blind SSRF can be proven with out-of-band interaction"
+      ],
+      "url": "https://owasp.org/Top10/A10_2021-Server-Side_Request_Forgery_(SSRF)/"
+    }
+  }
+}
