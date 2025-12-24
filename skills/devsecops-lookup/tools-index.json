@@ -1,0 +1,340 @@
+{
+  "version": "1.0",
+  "description": "DevSecOps Tools Index - OSS Focus",
+  "tools": {
+    "gitleaks": {
+      "name": "Gitleaks",
+      "category": "secret-detection",
+      "phase": "develop",
+      "type": "cli",
+      "description": "Scan git repos for secrets and sensitive data using regex patterns",
+      "keywords": ["secrets", "credentials", "api keys", "tokens", "password", "シークレット"],
+      "install": {
+        "brew": "brew install gitleaks",
+        "go": "go install github.com/gitleaks/gitleaks/v8@latest",
+        "docker": "docker pull zricethezav/gitleaks"
+      },
+      "usage": {
+        "detect": "gitleaks detect --source . -v",
+        "protect": "gitleaks protect --staged",
+        "json": "gitleaks detect --source . --report-format json --report-path gitleaks-report.json"
+      },
+      "exit_codes": {
+        "0": "No leaks found",
+        "1": "Leaks detected"
+      },
+      "ci_integration": {
+        "github_actions": "- uses: gitleaks/gitleaks-action@v2",
+        "gitlab_ci": "gitleaks detect --source . --report-format sarif"
+      },
+      "cwes": ["CWE-798", "CWE-259", "CWE-321"],
+      "url": "https://github.com/gitleaks/gitleaks"
+    },
+    "trufflehog": {
+      "name": "TruffleHog",
+      "category": "secret-detection",
+      "phase": "develop",
+      "type": "cli",
+      "description": "Find and verify credentials in git history, filesystems, and more",
+      "keywords": ["secrets", "credentials", "git history", "verification"],
+      "install": {
+        "brew": "brew install trufflehog",
+        "pip": "pip install trufflehog",
+        "docker": "docker pull trufflesecurity/trufflehog"
+      },
+      "usage": {
+        "git": "trufflehog git file://. --only-verified",
+        "filesystem": "trufflehog filesystem --directory ."
+      },
+      "cwes": ["CWE-798", "CWE-259"],
+      "url": "https://github.com/trufflesecurity/trufflehog"
+    },
+    "semgrep": {
+      "name": "Semgrep",
+      "category": "sast",
+      "phase": "build",
+      "type": "cli",
+      "description": "Lightweight static analysis with pattern-based rules for 30+ languages",
+      "keywords": ["SAST", "static analysis", "code scanning", "静的解析"],
+      "install": {
+        "pip": "pip install semgrep",
+        "brew": "brew install semgrep",
+        "docker": "docker pull semgrep/semgrep"
+      },
+      "usage": {
+        "auto": "semgrep scan --config auto",
+        "security": "semgrep scan --config p/security-audit",
+        "owasp": "semgrep scan --config p/owasp-top-ten",
+        "json": "semgrep scan --config auto --json > semgrep-report.json"
+      },
+      "rulesets": [
+        "p/security-audit",
+        "p/owasp-top-ten",
+        "p/cwe-top-25",
+        "p/default",
+        "p/javascript",
+        "p/python",
+        "p/golang"
+      ],
+      "languages": ["JavaScript", "TypeScript", "Python", "Go", "Java", "Ruby", "PHP", "C", "C++", "Rust"],
+      "cwes": ["CWE-89", "CWE-79", "CWE-94", "CWE-78", "CWE-22", "CWE-502", "CWE-200"],
+      "url": "https://github.com/semgrep/semgrep"
+    },
+    "trivy": {
+      "name": "Trivy",
+      "category": ["sca", "container-security", "iac-security"],
+      "phase": "build",
+      "type": "cli",
+      "description": "All-in-one scanner for vulnerabilities, misconfigs, secrets, and SBOM",
+      "keywords": ["SCA", "container", "vulnerability", "CVE", "依存関係", "コンテナ"],
+      "install": {
+        "brew": "brew install trivy",
+        "apt": "apt-get install trivy",
+        "docker": "docker pull aquasec/trivy"
+      },
+      "usage": {
+        "fs": "trivy fs .",
+        "image": "trivy image <image>",
+        "config": "trivy config .",
+        "sbom": "trivy sbom .",
+        "json": "trivy fs . --format json --output trivy-report.json"
+      },
+      "modes": {
+        "fs": "Scan filesystem for vulnerabilities in dependencies",
+        "image": "Scan container images for CVEs",
+        "config": "Scan IaC files (Terraform, K8s, Dockerfile)",
+        "sbom": "Generate Software Bill of Materials"
+      },
+      "severity_filter": "--severity CRITICAL,HIGH",
+      "cwes": ["CWE-1035", "CWE-937", "CWE-250"],
+      "url": "https://github.com/aquasecurity/trivy"
+    },
+    "npm-audit": {
+      "name": "npm audit",
+      "category": "sca",
+      "phase": "build",
+      "type": "builtin",
+      "description": "Built-in npm command to scan dependencies for known vulnerabilities",
+      "keywords": ["npm", "node", "dependencies", "CVE"],
+      "usage": {
+        "audit": "npm audit",
+        "fix": "npm audit fix",
+        "json": "npm audit --json > npm-audit.json",
+        "production": "npm audit --omit=dev"
+      },
+      "exit_codes": {
+        "0": "No vulnerabilities found",
+        "non-zero": "Vulnerabilities found (count varies by severity)"
+      },
+      "url": "https://docs.npmjs.com/cli/v8/commands/npm-audit"
+    },
+    "hadolint": {
+      "name": "Hadolint",
+      "category": "container-security",
+      "phase": "build",
+      "type": "cli",
+      "description": "Dockerfile linter for best practices and security issues",
+      "keywords": ["Dockerfile", "Docker", "container", "lint"],
+      "install": {
+        "brew": "brew install hadolint",
+        "scoop": "scoop install hadolint",
+        "docker": "docker pull hadolint/hadolint"
+      },
+      "usage": {
+        "lint": "hadolint Dockerfile",
+        "json": "hadolint --format json Dockerfile",
+        "ignore": "hadolint --ignore DL3008 Dockerfile"
+      },
+      "rules": {
+        "DL3000": "Use absolute WORKDIR",
+        "DL3002": "Do not switch to root USER",
+        "DL3003": "Use WORKDIR instead of cd",
+        "DL3006": "Use specific tags for base images",
+        "DL3007": "Do not use latest tag",
+        "DL3008": "Pin versions in apt-get install"
+      },
+      "cwes": ["CWE-250", "CWE-269"],
+      "url": "https://github.com/hadolint/hadolint"
+    },
+    "tfsec": {
+      "name": "tfsec",
+      "category": "iac-security",
+      "phase": "build",
+      "type": "cli",
+      "description": "Static analysis for Terraform code security issues",
+      "keywords": ["Terraform", "IaC", "infrastructure", "cloud"],
+      "install": {
+        "brew": "brew install tfsec",
+        "go": "go install github.com/aquasecurity/tfsec/cmd/tfsec@latest",
+        "docker": "docker pull aquasec/tfsec"
+      },
+      "usage": {
+        "scan": "tfsec .",
+        "json": "tfsec . --format json",
+        "sarif": "tfsec . --format sarif"
+      },
+      "cloud_providers": ["AWS", "Azure", "GCP", "DigitalOcean", "Oracle"],
+      "cwes": ["CWE-732", "CWE-284", "CWE-311"],
+      "url": "https://github.com/aquasecurity/tfsec"
+    },
+    "checkov": {
+      "name": "Checkov",
+      "category": "iac-security",
+      "phase": "build",
+      "type": "cli",
+      "description": "Policy-as-code for IaC with 1000+ built-in policies",
+      "keywords": ["Terraform", "Kubernetes", "CloudFormation", "Helm", "IaC"],
+      "install": {
+        "pip": "pip install checkov",
+        "brew": "brew install checkov",
+        "docker": "docker pull bridgecrew/checkov"
+      },
+      "usage": {
+        "scan": "checkov -d .",
+        "file": "checkov -f main.tf",
+        "json": "checkov -d . -o json",
+        "sarif": "checkov -d . -o sarif"
+      },
+      "frameworks": ["Terraform", "CloudFormation", "Kubernetes", "Helm", "Ansible", "ARM", "Bicep", "Dockerfile"],
+      "cwes": ["CWE-732", "CWE-284", "CWE-311", "CWE-250"],
+      "url": "https://github.com/bridgecrewio/checkov"
+    },
+    "kubelinter": {
+      "name": "KubeLinter",
+      "category": "iac-security",
+      "phase": "build",
+      "type": "cli",
+      "description": "Static analysis for Kubernetes YAML and Helm charts",
+      "keywords": ["Kubernetes", "K8s", "Helm", "YAML"],
+      "install": {
+        "brew": "brew install kube-linter",
+        "go": "go install golang.stackrox.io/kube-linter/cmd/kube-linter@latest"
+      },
+      "usage": {
+        "lint": "kube-linter lint .",
+        "json": "kube-linter lint . --format json"
+      },
+      "url": "https://github.com/stackrox/kube-linter"
+    },
+    "zap": {
+      "name": "OWASP ZAP",
+      "category": "dast",
+      "phase": "test",
+      "type": "cli",
+      "description": "The world's most widely used DAST scanner",
+      "keywords": ["DAST", "dynamic", "web scanner", "動的解析"],
+      "install": {
+        "docker": "docker pull ghcr.io/zaproxy/zaproxy:stable",
+        "download": "https://www.zaproxy.org/download/"
+      },
+      "usage": {
+        "baseline": "docker run -t ghcr.io/zaproxy/zaproxy:stable zap-baseline.py -t https://target.com",
+        "full": "docker run -t ghcr.io/zaproxy/zaproxy:stable zap-full-scan.py -t https://target.com",
+        "api": "docker run -t ghcr.io/zaproxy/zaproxy:stable zap-api-scan.py -t https://target.com/openapi.json"
+      },
+      "modes": {
+        "baseline": "Quick passive scan (5-10 min)",
+        "full": "Comprehensive active scan (hours)",
+        "api": "API-focused scan using OpenAPI/Swagger"
+      },
+      "cwes": ["CWE-89", "CWE-79", "CWE-352", "CWE-22", "CWE-601"],
+      "url": "https://www.zaproxy.org/"
+    },
+    "nuclei": {
+      "name": "Nuclei",
+      "category": "dast",
+      "phase": "test",
+      "type": "cli",
+      "description": "Fast vulnerability scanner with template-based detection",
+      "keywords": ["vulnerability scanner", "templates", "CVE"],
+      "install": {
+        "brew": "brew install nuclei",
+        "go": "go install github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest"
+      },
+      "usage": {
+        "scan": "nuclei -u https://target.com",
+        "templates": "nuclei -u https://target.com -t cves/",
+        "severity": "nuclei -u https://target.com -severity critical,high"
+      },
+      "template_types": ["cves", "exposures", "misconfigurations", "vulnerabilities", "default-logins"],
+      "url": "https://github.com/projectdiscovery/nuclei"
+    },
+    "pre-commit": {
+      "name": "pre-commit",
+      "category": "hook-management",
+      "phase": "develop",
+      "type": "cli",
+      "description": "Framework for managing git pre-commit hooks",
+      "keywords": ["hooks", "pre-commit", "git"],
+      "install": {
+        "pip": "pip install pre-commit",
+        "brew": "brew install pre-commit"
+      },
+      "usage": {
+        "install": "pre-commit install",
+        "run": "pre-commit run --all-files",
+        "autoupdate": "pre-commit autoupdate"
+      },
+      "security_hooks": [
+        "gitleaks",
+        "detect-secrets",
+        "bandit",
+        "safety"
+      ],
+      "url": "https://pre-commit.com/"
+    },
+    "detect-secrets": {
+      "name": "detect-secrets",
+      "category": "secret-detection",
+      "phase": "develop",
+      "type": "cli",
+      "description": "Yelp's tool for detecting secrets in code",
+      "keywords": ["secrets", "credentials", "patterns"],
+      "install": {
+        "pip": "pip install detect-secrets"
+      },
+      "usage": {
+        "scan": "detect-secrets scan",
+        "baseline": "detect-secrets scan > .secrets.baseline",
+        "audit": "detect-secrets audit .secrets.baseline"
+      },
+      "cwes": ["CWE-798", "CWE-259"],
+      "url": "https://github.com/Yelp/detect-secrets"
+    },
+    "grype": {
+      "name": "Grype",
+      "category": ["sca", "container-security"],
+      "phase": "build",
+      "type": "cli",
+      "description": "Vulnerability scanner for container images and filesystems",
+      "keywords": ["vulnerability", "container", "CVE", "SBOM"],
+      "install": {
+        "brew": "brew install grype",
+        "curl": "curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s"
+      },
+      "usage": {
+        "image": "grype <image>",
+        "dir": "grype dir:.",
+        "sbom": "grype sbom:./sbom.json"
+      },
+      "url": "https://github.com/anchore/grype"
+    },
+    "cosign": {
+      "name": "Cosign",
+      "category": "signing",
+      "phase": "deploy",
+      "type": "cli",
+      "description": "Container image signing, verification, and storage",
+      "keywords": ["signing", "verification", "supply chain", "SLSA"],
+      "install": {
+        "brew": "brew install cosign",
+        "go": "go install github.com/sigstore/cosign/v2/cmd/cosign@latest"
+      },
+      "usage": {
+        "sign": "cosign sign <image>",
+        "verify": "cosign verify <image>"
+      },
+      "url": "https://github.com/sigstore/cosign"
+    }
+  }
+}

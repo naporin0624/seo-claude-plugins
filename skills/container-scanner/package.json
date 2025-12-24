@@ -1,0 +1,32 @@
+{
+  "name": "container-scanner",
+  "version": "1.0.0",
+  "description": "Hadolint / Trivy wrapper for container security scanning",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "container-scanner": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsdown src/index.ts --format esm",
+    "prepare": "npm run build",
+    "scan": "node dist/index.js"
+  },
+  "keywords": [
+    "hadolint",
+    "trivy",
+    "docker",
+    "container",
+    "security",
+    "dockerfile"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsdown": "^0.9.0",
+    "typescript": "^5.7.0"
+  }
+}
