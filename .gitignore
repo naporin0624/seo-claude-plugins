@@ -19,8 +19,6 @@ npm-debug.log*
 coverage/
 .nyc_output/
 
-# Build output
-dist/
 
 **/package-lock.json
 **/yarn.lock
