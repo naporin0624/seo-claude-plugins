@@ -1,0 +1,27 @@
+{
+  "name": "web-audit-tools",
+  "version": "3.2.0",
+  "description": "Claude Code plugin marketplace for comprehensive web audit tools (SEO, WCAG 2.1 AA, Security)",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "pnpm -r --filter './skills/*' run build",
+    "prepare": "pnpm run build",
+    "clean": "pnpm -r exec rm -rf node_modules dist",
+    "install:browsers": "pnpm -r --filter '{html-lint-runner,lighthouse-runner,playwright-security-runner}' exec npx playwright install chromium"
+  },
+  "keywords": [
+    "claude-code",
+    "plugin",
+    "seo",
+    "accessibility",
+    "wcag",
+    "security",
+    "audit"
+  ],
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "packageManager": "pnpm@8.15.0"
+}
