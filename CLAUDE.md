@@ -57,18 +57,39 @@ agents/
 claude plugin validate .
 ```
 
-## Skill Dependencies
+## Project Setup
 
-Skills with node_modules require dependency installation:
+This project uses **pnpm workspace** for monorepo dependency management.
 
 ```bash
-cd skills/seo-analyzer && npm install        # cheerio
-cd skills/lighthouse-runner && npm install   # puppeteer, lighthouse
-cd skills/web-resource-checker && npm install # xml2js
-cd skills/cve-search && npm install
-cd skills/form-security-analyzer && npm install
-cd skills/playwright-security-runner && npm install
+# Initial setup (installs all dependencies and builds all skills)
+pnpm install
+
+# Rebuild all skills
+pnpm run build
+
+# Clean all dependencies and build artifacts
+pnpm run clean
+
+# Reinstall Playwright browsers (html-lint-runner, lighthouse-runner, playwright-security-runner)
+pnpm run install:browsers
+
+# Build specific skill
+pnpm --filter seo-analyzer run build
 ```
+
+### Individual Skill Dependencies
+
+Skills with TypeScript source code and build process:
+- **seo-analyzer**: cheerio (HTML parsing)
+- **lighthouse-runner**: lighthouse, playwright, serve
+- **html-lint-runner**: @axe-core/playwright, markuplint
+- **web-resource-checker**: xml2js (sitemap parsing)
+- **cve-search**: node-fetch (NVD API client)
+- **form-security-analyzer**: cheerio (form parsing)
+- **playwright-security-runner**: playwright (dynamic testing)
+
+All skills use `tsdown` for ESM builds with `.d.ts` generation.
 
 ## Development Commands
 
